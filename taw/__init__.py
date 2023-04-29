@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 
-from taw.forms import PairingsForm
+from taw.forms import PairingsForm, StandingsForm
 
 app = Flask(
     __name__,
@@ -12,8 +12,12 @@ app = Flask(
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    # We don't handle sensitive data, I can't be bothered to set up a secret key properly
-    form = PairingsForm(meta={"csrf": False})
+    # If we're asked to handle standings, we use the dedicated form
+    if getattr(request, "form") and request.form["action"] == "standings":
+        form = StandingsForm()
+    # We default to the pairings form otherwise
+    else:
+        form = PairingsForm()
 
     if form.validate_on_submit():
         ctx = {
@@ -50,5 +54,9 @@ def home():
                     )
             rows = sorted(rows, key=lambda row: row["player_1"].lower())
             return render_template("pairings.html", rows=rows, **ctx)
+
+        if request.form["action"] == "standings":
+            standings = form.parsed_standings
+            return render_template("standings.html", standings=standings, **ctx)
 
     return render_template("index.html", form=form)

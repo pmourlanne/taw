@@ -22,7 +22,9 @@ Run the local tests with `pytest`
 - Table number offset
 - Match slips template
 - Pairings by table
-- Standings template
 - Tournament logo / branding
-- How to deploy :clown:
+- How to deploy :clown: -> pythonanywhere?
+- Move these TODOs into Github issues :eyes:
+- Create issue template (in particular, unexpected input)
+- Add a documentation page, and a FAQ page (same one?)
 - Sentry?
