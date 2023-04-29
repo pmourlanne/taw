@@ -7,9 +7,16 @@ Slips, pairings &amp; standings generator from AetherHub
 
 Create a virtual environment, then run `pip install -r requirements.txt`
 
+Run the local server with `flask --app taw run`
+
+### Local installation
+
+In the same virtual environment, run `pip install -r requirements-dev.txt`
+
+Install the pre-commit hooks with `pre-commit install`
+
 ## TODO
 
-- pre-commit hooks (black pls)
 - Validate input
 - Index page
 - Match slips template
