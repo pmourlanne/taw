@@ -21,7 +21,7 @@ Run the local tests with `pytest`
 
 - Table number offset
 - Match slips template
-- Pairings template
+- Pairings by table
 - Standings template
 - Tournament logo / branding
 - How to deploy :clown:

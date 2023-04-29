@@ -19,6 +19,6 @@ class PairingsForm(FlaskForm):
 
     def validate_aetherhub_dump(form, field):
         try:
-            parse_pairings(field.data)
+            form.parsed_pairings = parse_pairings(field.data)
         except ParsePairingException as e:
             raise ValidationError(str(e)) from e
