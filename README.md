@@ -19,11 +19,10 @@ Run the local tests with `pytest`
 
 ## TODO
 
-- Validate input
-- Index page
 - Table number offset
 - Match slips template
 - Pairings template
 - Standings template
+- Tournament logo / branding
 - How to deploy :clown:
 - Sentry?

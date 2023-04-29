@@ -38,7 +38,10 @@ def parse_pairings(pairings_input):
         table_numbers.keys()
     )
     if missing_tables:
-        raise ParsePairingException(f"Some tables are missing: {missing_tables}")
+        missing_tables_str = ", ".join(
+            [str(table_number) for table_number in missing_tables]
+        )
+        raise ParsePairingException(f"Some tables are missing: {missing_tables_str}")
 
     # Make sure we don't have duplicate tables
     duplicate_table_numbers = sorted(
@@ -49,8 +52,11 @@ def parse_pairings(pairings_input):
         ]
     )
     if duplicate_table_numbers:
+        duplicate_table_numbers_str = ", ".join(
+            [str(table_number) for table_number in duplicate_table_numbers]
+        )
         raise ParsePairingException(
-            f"Some table numbers are present more than once: {duplicate_table_numbers}"
+            f"Some table numbers are present more than once: {duplicate_table_numbers_str}"
         )
 
     return pairings
