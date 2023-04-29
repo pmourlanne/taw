@@ -15,6 +15,8 @@ In the same virtual environment, run `pip install -r requirements-dev.txt`
 
 Install the pre-commit hooks with `pre-commit install`
 
+Run the local tests with `pytest`
+
 ## TODO
 
 - Validate input
