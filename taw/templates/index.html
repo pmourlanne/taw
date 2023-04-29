@@ -2,15 +2,60 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <script src="js/bootstrap.bundle.min.js"></script> 
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="js/bootstrap.bundle.min.js"></script>
 
-    <title>Page Title</title>
+  <title>This Ain't WLTR</title>
 </head>
 
 <body>
 
-    <p>Hello</p>
+  <div class="container mt-5">
+    <div class="mb-3">
+      <h1>
+        This Ain't WLTR
+      </h1>
+      <p>
+        This website lets you generate pairings, match slips and standings for your AetherHub tournament.<br/>
+        This service is freely available. If you notice an issue while using it, feel free to open an issue in the <a href="https://github.com/pmourlanne/taw">Github repository</a>.
+      </p>
+    </div>
+  </div>
+
+  <div class="container mt-3">
+    <form action="/" method="POST">
+      <div class="row">
+        <div class="col-lg-8 col-sm-12 mb-3">
+            <label for="aetherhub_dump" class="form-label">Dump from AetherHub</label>
+            <textarea class="form-control" id="aetherhub_dump" rows=10 aria-describedby="aetherhub_dump_help"></textarea>
+            <div id="aetherhub_dump_help" class="form-text">Select your pairings / standings from Aetherhub and copy paste them here</div>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+          <div class="mb-3">
+            <label for="tournament_name" class="form-label">Tournament Name</label>
+            <input type="text" class="form-control" id="tournament_name">
+          </div>
+
+          <div class="mb-3">
+            <label for="round_number" class="form-label">Round #</label>
+            <input type="number" class="form-control" id="round_number" min=1>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col d-flex justify-content-center p-1">
+              <button type="submit" class="btn btn-primary" formaction="pairings">Generate<br/>pairings</button>
+            </div>
+            <div class="col d-flex justify-content-center p-1">
+              <button type="submit" class="btn btn-primary" formaction="match_slips">Generate<br/>match slips</button>
+            </div>
+            <div class="col d-flex justify-content-center p-1">
+              <button type="submit" class="btn btn-primary" formaction="standings">Generate<br/>standings</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 
 </body>
 
