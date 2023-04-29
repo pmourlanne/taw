@@ -2,7 +2,7 @@ import re
 from collections import namedtuple, Counter
 from operator import itemgetter
 
-from taw.exceptions import ParsePairingException
+from taw.exceptions import ParsePairingException, ParseStandingException
 
 
 Player = namedtuple("Player", ["name", "points"])
@@ -121,4 +121,100 @@ def _parse_pairing(pairing_line):
     # Welp, we tried peeps
     raise ParsePairingException(
         f"Could not parse the following pairing: {pairing_line}"
+    )
+
+
+Standing = namedtuple(
+    "Standing", ["position", "player_name", "nb_points", "record", "omw", "gw", "ogw"]
+)
+
+
+def parse_standings(standings_input):
+    standings = []
+    for standing_line in standings_input.split("\n"):
+        standing = _parse_standing(standing_line)
+        # _parse_standing will return None in some cases (eg. blank line)
+        if standing:
+            standings.append(standing)
+
+    # Sort by position
+    standings = sorted(standings, key=itemgetter(0))
+
+    if not standings:
+        return standings
+
+    # Make sure the first position is number 1
+    positions = Counter([standing.position for standing in standings])
+    min_position = min(positions.keys())
+    if min_position != 1:
+        raise ParseStandingException("First position should be number 1")
+
+    # Make sure no position is missing
+    max_position = max(positions.keys())
+    missing_positions = set(range(min_position, max_position + 1)) - set(
+        positions.keys()
+    )
+    if missing_positions:
+        missing_positions_str = ", ".join(
+            [str(position) for position in missing_positions]
+        )
+        raise ParseStandingException(
+            f"Some positions are missing: {missing_positions_str}"
+        )
+
+    # Make sure we don't have duplicate positions
+    duplicate_positions = sorted(
+        [
+            position
+            for position, nb_occurrences in positions.items()
+            if nb_occurrences > 1
+        ]
+    )
+    if duplicate_positions:
+        duplicate_positions_str = ", ".join(
+            [str(position) for position in duplicate_positions]
+        )
+        raise ParseStandingException(
+            f"Some positions are present more than once: {duplicate_positions_str}"
+        )
+
+    return standings
+
+
+re_standing = (
+    r"^(?P<position>[0-9]+)\s+"
+    # Notice the `?` to disable the greedy behaviour
+    r"(?P<player_name>.*?)\s+"
+    r"(?P<nb_points>\d+)\s*"
+    # Two modes, without draws (eg. `5-0`) and with draws (eg. `5-0-1`)
+    r"(?P<record>(\d+\s*-\s*\d+\s*-\s*\d+)|(\d+\s*-\s*\d+))\s+"
+    r"(?P<omw>[\d.]+%)\s+"
+    r"(?P<gw>[\d.]+%)\s+"
+    r"(?P<ogw>[\d.]+%)$"
+)
+
+
+def _parse_standing(standing_line):
+    standing_line = standing_line.strip()
+
+    # If at that point the line is empty, just return None :shrug:
+    if not standing_line:
+        return None
+
+    # Invoking the power of regexps
+    result = re.match(re_standing, standing_line)
+    if not result:
+        raise ParseStandingException(
+            f"Could not parse the following standing: {standing_line}"
+        )
+
+    group_dict = result.groupdict()
+    return Standing(
+        position=int(group_dict["position"]),
+        player_name=group_dict["player_name"],
+        nb_points=int(group_dict["nb_points"]),
+        record=group_dict["record"],
+        omw=group_dict["omw"],
+        gw=group_dict["gw"],
+        ogw=group_dict["ogw"],
     )

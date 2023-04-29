@@ -8,7 +8,7 @@
       padding: 0;
     }
   </style>
-  <title>Pairings round #{{ round_number }}</title>
+  <title>Standings round #{{ round_number }}</title>
 </head>
 
 <body>
@@ -28,22 +28,26 @@
 
       <thead>
         <tr>
-          <th scope="col">Table</th>
-          <th scope="col">Player 1</th>
+          <th scope="col">Position</th>
+          <th scope="col">Player</th>
           <th scope="col">Points</th>
-          <th scope="col">Player 2</th>
-          <th scope="col">Points</th>
+          <th scope="col">Record</th>
+          <th scope="col">OMW%</th>
+          <th scope="col">GW%</th>
+          <th scope="col">OGW%</th>
         </tr>
       </thead>
 
       <tbody>
-        {% for row in rows %}
+        {% for standing in standings %}
         <tr>
-          <th scope="row">{{ row["table_number"] }}</td>
-          <td>{{ row["player_1"] }}</td>
-          <td>{{ row["player_1_points"] }}</td>
-          <td>{{ row["player_2"] }}</td>
-          <td>{{ row["player_2_points"] }}</td>
+          <th scope="row">{{ standing.position }}</td>
+          <td>{{ standing.player_name }}</td>
+          <td>{{ standing.nb_points }}</td>
+          <td>{{ standing.record }}</td>
+          <td>{{ standing.omw }}</td>
+          <td>{{ standing.gw }}</td>
+          <td>{{ standing.ogw }}</td>
         </tr>
         {% endfor %}
 
