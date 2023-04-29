@@ -64,6 +64,24 @@ def home():
                     },
                 )
             rows = sorted(rows, key=lambda row: row["player_1"].lower())
+            return render_template("pairings.html", rows=rows, **ctx)
+
+        elif request.form["action"] == "match_slips":
+            pairings = form.parsed_pairings
+
+            rows = []
+            for pairing in pairings:
+                # We want to display each pairing twice, once for each player
+                rows.append(
+                    {
+                        "table_number": pairing.number,
+                        "player_1": pairing.player_1.name,
+                        "player_1_points": pairing.player_1.points,
+                        "player_2": pairing.player_2.name,
+                        "player_2_points": pairing.player_2.points,
+                    },
+                )
+            rows = sorted(rows, key=lambda row: row["player_1"].lower())
             now = datetime.now()
             date = now.strftime("%d/%m/%Y")
             return render_template("paper_slips.html", date=date, rows=rows, **ctx)
