@@ -98,6 +98,29 @@ from taw.utils import parse_pairings, Table, Player
                 ),
             ],
         ),
+        # One table with empty lines and blank spaces
+        (
+            "1   Jacques Chirac (15 Points)    François Mitterrand (13 Points)     No results\n\t\t\n\t",
+            [
+                Table(
+                    number=1,
+                    player_1=Player(
+                        name="Jacques Chirac",
+                        points=15,
+                    ),
+                    player_2=Player(
+                        name="François Mitterrand",
+                        points=13,
+                    ),
+                ),
+            ],
+        ),
+        # Empty input
+        ("", []),
+        # TODO: Tables not in the correct order are re-ordered
+        # TODO: Missing table number?
+        # TODO: Multiple tables with the same number should raise
+        # TODO: A single name appearing in multiple tables should raise
     ],
 )
 def test_parse_pairings(pairings_input, expected_output):

@@ -21,6 +21,7 @@ Run the local tests with `pytest`
 
 - Validate input
 - Index page
+- Table number offset
 - Match slips template
 - Pairings template
 - Standings template
