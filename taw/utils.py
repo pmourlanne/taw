@@ -1,5 +1,8 @@
 import re
-from collections import namedtuple
+from collections import namedtuple, Counter
+from operator import itemgetter
+
+from taw.exceptions import ParsePairingException
 
 
 Player = namedtuple("Player", ["name", "points"])
@@ -21,20 +24,49 @@ def parse_pairings(pairings_input):
         if pairing:
             pairings.append(pairing)
 
+    # Sort by table number
+    pairings = sorted(pairings, key=itemgetter(0))
+
+    if not pairings:
+        return pairings
+
+    # Make sure no table is missing
+    table_numbers = Counter([pairing.number for pairing in pairings])
+    min_table_number = min(table_numbers.keys())
+    max_table_number = max(table_numbers.keys())
+    missing_tables = set(range(min_table_number, max_table_number + 1)) - set(
+        table_numbers.keys()
+    )
+    if missing_tables:
+        raise ParsePairingException(f"Some tables are missing: {missing_tables}")
+
+    # Make sure we don't have duplicate tables
+    duplicate_table_numbers = sorted(
+        [
+            table_number
+            for table_number, nb_occurrences in table_numbers.items()
+            if nb_occurrences > 1
+        ]
+    )
+    if duplicate_table_numbers:
+        raise ParsePairingException(
+            f"Some table numbers are present more than once: {duplicate_table_numbers}"
+        )
+
     return pairings
 
 
 re_pairing = (
     r"^(?P<table_number>[0-9]+)\s+"
-    r"(?P<player_1_name>[\w\s']+)\s"
+    r"(?P<player_1_name>[^(]+)\s"
     r"\((?P<player_1_nb_points>[\d]+)\sPoints\)\s*"
-    r"(?P<player_2_name>[\w\s']+)\s"
+    r"(?P<player_2_name>[^(]+)\s"
     r"\((?P<player_2_nb_points>[\d]+)\sPoints\).*"
 )
 
 re_pairing_bye = (
     r"^(?P<table_number>[0-9]+)\s+"
-    r"(?P<player_1_name>[\w\s]+)\s"
+    r"(?P<player_1_name>[^(]+)\s"
     r"\((?P<player_1_nb_points>[\d]+)\sPoints\)\s*"
     r"BYE.*"
 )
@@ -81,4 +113,6 @@ def _parse_pairing(pairing_line):
         )
 
     # Welp, we tried peeps
-    raise Exception("TODO: This should be a custom exception")
+    raise ParsePairingException(
+        f"Could not parse the following pairing: {pairing_line}"
+    )
