@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <title>This Ain't WLTR</title>
+</head>
+
+<body>
+
+  <div class="container mt-5">
+    <div class="mb-3">
+      <h1>
+        This Ain't WLTR
+      </h1>
+      <p>
+        This website lets you generate pairings, match slips (and soon stangings) for your AetherHub tournament.<br/>
+        This service is freely available. If you notice an issue while using it, feel free to open an issue in the <a href="https://github.com/pmourlanne/taw">Github repository</a>.
+      </p>
+    </div>
+  </div>
+
+  <div class="container mt-3">
+    <form action="/" method="POST">
+      <div class="row">
+        <div class="col-lg-8 col-sm-12 mb-3">
+            {{ form.aetherhub_dump.label(class_="form-label") }}
+            {{ form.aetherhub_dump(class_="form-control", rows=10, **{"aria-describedby": "aetherhub_dump_description"}) }}
+            <div id="aetherhub_dump_description" class="form-text">{{ form.aetherhub_dump.description }}</div>
+
+            {% if form.aetherhub_dump.errors %}
+            <div class="alert alert-danger mt-2 mb-2" role="alert">
+              {% for error in form.aetherhub_dump.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-lg-4 col-sm-12">
+          <div class="mb-3">
+            {{ form.tournament_name.label(class_="form-label") }}
+            {{ form.tournament_name(class_="form-control") }}
+
+            {% if form.tournament_name.errors %}
+            <div class="alert alert-danger mt-2 mb-2" role="alert">
+              {% for error in form.tournament_name.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.round_number.label(class_="form-label") }}
+            {{ form.round_number(class_="form-control", min=1) }}
+
+            {% if form.round_number.errors %}
+            <div class="alert alert-danger mt-2 mb-2" role="alert">
+              {% for error in form.round_number.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="row mb-3">
+            <div class="col d-flex justify-content-center p-1">
+              <button type="submit" class="btn btn-primary" name="action" value="pairings">Generate<br/>pairings</button>
+            </div>
+            <div class="col d-flex justify-content-center p-1">
+              <button type="submit" class="btn btn-primary" name="action" value="match_slips">Generate<br/>match slips</button>
+            </div>
+            <div class="col d-flex justify-content-center p-1">
+              <button type="submit" class="btn btn-primary" name="action" value="standings" disabled>Generate<br/>standings<br/>(Soon)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</body>
+
+</html>

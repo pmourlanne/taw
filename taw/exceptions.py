@@ -1,0 +1,2 @@
+class ParsePairingException(Exception):
+    pass
