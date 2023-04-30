@@ -1,6 +1,6 @@
 # TAW
 
-Slips, pairings &amp; standings generator from AetherHub
+Pairings, Match Slips &amp; standings generator for your AetherHub tournament
 
 "TAW" is a recursive acronym for "TAW Ain't WLTR".
 
@@ -25,7 +25,7 @@ TODO
 
 # Contributing
 
-TODO
+Contributions to this repo are welcome :) If you notice an issue, feel free to open an issue too.
 
 ## Installation
 
@@ -40,14 +40,3 @@ In the same virtual environment, run `pip install -r requirements-dev.txt`
 Install the pre-commit hooks with `pre-commit install`
 
 Run the local tests with `pytest`
-
-## TODO
-
-- Table number offset
-- Match slips template
-- Pairings by table
-- Tournament logo / branding
-- How to deploy :clown: -> pythonanywhere? Vercel?
-- Move these TODOs into Github issues :eyes:
-- Add a documentation page, and a FAQ page (same one?)
-- Sentry?
