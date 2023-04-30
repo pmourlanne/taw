@@ -49,6 +49,5 @@ Run the local tests with `pytest`
 - Tournament logo / branding
 - How to deploy :clown: -> pythonanywhere? Vercel?
 - Move these TODOs into Github issues :eyes:
-- Create issue template (in particular, unexpected input)
 - Add a documentation page, and a FAQ page (same one?)
 - Sentry?
