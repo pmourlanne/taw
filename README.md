@@ -15,8 +15,8 @@ As a Magic: The Gathering judge, the options I know of when it comes to scorekee
 
 A few fellow judges have developed custom ways to generate the papers from AetherHub. These work great, but they often have hard requirements (eg. using Microsoft Excel and / or Windows) and are not available online. These solutions are also not widely shared or available.
 
-The goals of these projects are two-folds:
-- Having an easy way to generate the papers from an AetherHub tournament
+The goals of this project are two-folds:
+- Having an easy way to generate the papers for an AetherHub tournament
 - Sharing this solution with everyone
 
 ## Where is this service available?
