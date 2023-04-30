@@ -1,5 +1,3 @@
-from datetime import date
-
 from flask import Flask, render_template, request
 
 from taw.forms import PairingsForm, StandingsForm
@@ -82,10 +80,7 @@ def home():
                     },
                 )
             rows = sorted(rows, key=lambda row: row["player_1"].lower())
-            today_str = date.today().strftime("%d/%m/%Y")
-            return render_template(
-                "match_slips.html", today_str=today_str, rows=rows, **ctx
-            )
+            return render_template("match_slips.html", rows=rows, **ctx)
 
         if request.form["action"] == "standings":
             standings = form.parsed_standings
