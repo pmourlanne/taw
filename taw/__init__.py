@@ -60,3 +60,13 @@ def home():
             return render_template("standings.html", standings=standings, **ctx)
 
     return render_template("index.html", form=form)
+
+
+@app.route("/help/")
+def help_page():
+    return render_template("help.html")
+
+
+@app.route("/faq/")
+def faq():
+    return render_template("faq.html")
