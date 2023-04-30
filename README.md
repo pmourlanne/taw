@@ -40,3 +40,11 @@ In the same virtual environment, run `pip install -r requirements-dev.txt`
 Install the pre-commit hooks with `pre-commit install`
 
 Run the local tests with `pytest`
+
+### Deployment installation
+
+- Install nvm: `curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash`
+- Install npm: `nvm install --lts`
+- Install vercel: `npm i -g vercel`
+
+To run the local vercel development version: `vercel dev`
