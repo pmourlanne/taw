@@ -9,7 +9,7 @@ Slips, pairings &amp; standings generator from AetherHub
 As a Magic: The Gathering judge, the options I know of when it comes to scorekeeping are:
 
 - Using the official WotC software, EventLink. EventLink is notoriously limited, and I feel is not well suited to run 65+ people tournament. You also need to be a WPN store to access it
-- Paying for a service like mtgmelee. I've only heard good things from the service, but it is far from cheap. Good for them if they can it work, but it makes this option less appealing for smaller scale tournaments, without barely any money to spare
+- Paying for a service like MTG Melee. I've only heard good things from the service, but it is far from cheap. Good for them if they can it work, but it makes this option less appealing for smaller scale tournaments, without barely any money to spare
 - Using WLTR. This would be great, if we had access to it 👼
 - Using AetherHub to generate pairings and compute standings. AetherHub's great, but it doesn't generate pairings, standings or match slips
 

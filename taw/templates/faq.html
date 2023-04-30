@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <div class="container mt-5">
+    <div class="mb-3">
+      <h1>TAW: FAQ</h1>
+
+      <h3 class="mt-3 mb-2 border-bottom">What's TAW?</h3>
+      <p>TAW is a service that lets you generate printable versions of the papers you need when running a tournament from AetherHub.</p>
+
+      <h3 class="mt-3 mb-2 border-bottom">Who is behind this project?</h3>
+      <p><a href="https://www.linkedin.com/in/pmourlanne/">Pierre Mourlanne</a> is the author of this project. Pierre has been working with Python for over then years, and has been judging at Magic for five years.</p>
+      <p><a href="https://www.linkedin.com/in/gauthier-lamarque-72a365243/">Gauthier Lamarque</a> is a contributor to the project. Gauthier is a web developer with over five years of experience. Gauthier also plays a lot of Magic, where his specialty is losing to Pierre.</p>
+
+      <h3 class="mt-3 mb-2 border-bottom">Why did you build this?</h3>
+      <p>I couldn't find something I liked when looking at the available scorekeeping solutions. EventLink is extremely limited, MTG Melee is great but pricey, WLTR is not available, etc.<br/>
+      AetherHub is great, but doesn't generate pairings, standings or match slips. I'm plugging that hole with this project.</p>
+
+      <h3 class="mt-3 mb-2 border-bottom">I found a bug, what do I do?</h3>
+      <p>Please open an issue in the <a href="https://github.com/pmourlanne/taw/issues">Github repository</a> 🙏</p>
+
+      <h3 class="mt-3 mb-2 border-bottom">What happens if AetherHub changes their formatting?</h3>
+      <p>
+        TAW's parsing of pairings and standings is pretty rudimentary. In particular, if AetherHub were to change their formatting, I would expect TAW to not work as is, and need updating. Maybe one day AetherHub will expose their tournaments through an API, or will generate pairings / standings / match slips themselves. In the meantime we are stuck with brittle solutions, relying on weak interfaces.
+      </p>
+
+      <h3 class="mt-3 mb-2 border-bottom">How can I contribute to this project?</h3>
+      <p>The repository for this project is public, and can be found on <a href="https://github.com/pmourlanne/taw/">Github</a>. Feel free to drop by and look at the open issues :)</p>
+
+    </div>
+  </div>
+{% endblock %}
