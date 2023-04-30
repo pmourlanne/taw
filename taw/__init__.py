@@ -1,5 +1,6 @@
+from datetime import date
+
 from flask import Flask, render_template, request
-from datetime import datetime
 
 from taw.forms import PairingsForm, StandingsForm
 from taw.utils import get_pairings_by_name
@@ -66,12 +67,11 @@ def home():
             rows = sorted(rows, key=lambda row: row["player_1"].lower())
             return render_template("pairings.html", rows=rows, **ctx)
 
-        elif request.form["action"] == "match_slips":
+        if request.form["action"] == "match_slips":
             pairings = form.parsed_pairings
 
             rows = []
             for pairing in pairings:
-                # We want to display each pairing twice, once for each player
                 rows.append(
                     {
                         "table_number": pairing.number,
@@ -82,9 +82,10 @@ def home():
                     },
                 )
             rows = sorted(rows, key=lambda row: row["player_1"].lower())
-            now = datetime.now()
-            date = now.strftime("%d/%m/%Y")
-            return render_template("match_slips.html", date=date, rows=rows, **ctx)
+            today_str = date.today().strftime("%d/%m/%Y")
+            return render_template(
+                "match_slips.html", today_str=today_str, rows=rows, **ctx
+            )
 
         if request.form["action"] == "standings":
             standings = form.parsed_standings
