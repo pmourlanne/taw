@@ -10,11 +10,6 @@
         color: #333;
         overflow: visible;
         text-align: center;
-        height: 5px;
-    }
-    .paper-slip__generalities {
-        display: flex;
-        justify-content: space-between;
     }
     .paper-slip__signatures .signature {
         border-top: 2px solid black;
@@ -23,88 +18,48 @@
         border-bottom: 2px solid black;
         height: 100%;
     }
+
     @media print {
-        .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
-                float: left;
-        }
-        .col-12 {
-                width: 100%;
-        }
-        .col-11 {
-                width: 91.66666667%;
-        }
-        .col-10 {
-                width: 83.33333333%;
-        }
-        .col-9 {
-                width: 75%;
-        }
-        .col-8 {
-                width: 66.66666667%;
-        }
-        .col-7 {
-                width: 58.33333333%;
-        }
-        .col-6 {
-                width: 50%;
-        }
-        .col-5 {
-                width: 41.66666667%;
-        }
-        .col-4 {
-                width: 33.33333333%;
-        }
-        .col-3 {
-                width: 25%;
-        }
-        .col-2 {
-                width: 16.66666667%;
-        }
-        .col-1 {
-                width: 8.33333333%;
-        }
-        }
+        .pagebreak { page-break-before: always; }
+    }
   </style>
   <title>Paper slips round #{{ round_number }}</title>
 </head>
 
 <body>
+  {% for row in rows %}
   <div class="container-fluid separator">
     <hr>
   </div>
-  {% for row in rows %}
-  <div class="container-fluid paper-slip">
-    <div class="paper-slip__generalities">
-        <div>
-            Round #{{ round_number }} - {{ tournament_name }}
-        </div>
-        <div>
-            {{ today_str }}
-        </div>
+
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-6 d-flex justify-content-start"><b>Table #{{ row["table_number"] }}</b></div>
+        <div class="col-6 d-flex justify-content-end">Round #{{ round_number }} - {{ tournament_name }}</div>
     </div>
 
-    <div class="row paper-slip__headers">
-        <div class="col-6">Table {{ row["table_number"] }}</div>
+    <div class="row">
+        <div class="col-6"></div>
         <div class="col-1">Wins</div>
         <div class="col-1">Draws</div>
+        <div class="col-2"></div>
         <div class="col-2">Drop ?</div>
     </div>
 
     <div class="row paper-slip__p1-infos">
         <div class="col-6">
-            Player 1: {{ row["player_1"] }}<br>
-            Points: {{ row["player_1_points"] }}
+            {{ row["player_1"] }} ({{ row["player_1_points"] }} pts)
         </div>
         <div class="col-1">
             <div class="paper-slip__placeholder"></div>
         </div>
-        <div class="col-1"></div>
+        <div class="col-3"></div>
         <div class="col-1">
             <div class="paper-slip__placeholder"></div>
         </div>
     </div>
 
-    <div class="row paper-slip__draw-row">
+    <div class="row">
         <div class="col-7"></div>
         <div class="col-1">
             <div class="paper-slip__placeholder"></div>
@@ -113,13 +68,12 @@
 
     <div class="row paper-slip__p2-infos">
         <div class="col-6">
-            Player 2: {{ row["player_2"] }}<br>
-            Points: {{ row["player_2_points"] }}
+            {{ row["player_2"] }} ({{ row["player_2_points"] }} pts)
         </div>
         <div class="col-1">
             <div class="paper-slip__placeholder"></div>
         </div>
-        <div class="col-1"></div>
+        <div class="col-3"></div>
         <div class="col-1">
             <div class="paper-slip__placeholder"></div>
         </div>
@@ -133,9 +87,16 @@
     <div class="col-2 signature">PLAYER 2</div>
   </div>
 
-  <div class="container-fluid separator">
-    <hr>
-  </div>
+  {# Every five match slip #}
+  {% if loop.index % 5 == 0 %}
+  {# We add a separator (bottom of the page) #}
+    <div class="container-fluid separator">
+      <hr>
+    </div>
+  {# We add a page break #}
+    <div class="pagebreak"> </div>
+  {% endif %}
+
   {% endfor %}
 </body>
 
