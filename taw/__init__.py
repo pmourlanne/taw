@@ -84,7 +84,7 @@ def home():
             rows = sorted(rows, key=lambda row: row["player_1"].lower())
             now = datetime.now()
             date = now.strftime("%d/%m/%Y")
-            return render_template("paper_slips.html", date=date, rows=rows, **ctx)
+            return render_template("match_slips.html", date=date, rows=rows, **ctx)
 
         if request.form["action"] == "standings":
             standings = form.parsed_standings
