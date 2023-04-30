@@ -21,7 +21,7 @@ The goals of this project are two-folds:
 
 ## Where is this service available?
 
-TODO
+The service is available online at https://taw.petmyc.at/
 
 # Contributing
 
