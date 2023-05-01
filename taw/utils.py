@@ -1,5 +1,6 @@
+import math
 import re
-from collections import namedtuple, Counter
+from collections import Counter, namedtuple
 from operator import itemgetter
 
 from taw.exceptions import ParsePairingException, ParseStandingException
@@ -145,6 +146,99 @@ def get_pairings_by_name(pairings):
 
     # Pairings should then be ordered by player name
     return sorted(ret, key=lambda table: table.player_1.name.lower())
+
+
+def sort_pairings_for_paper_cutter(pairings, *, nb_slips_per_page):
+    """
+    We need to sort pairings so that when we stack each page, and cut
+    them up with a paper cutter, the slips are ordered within each stack.
+    We also want the first pages to be as full as possible, only the last
+    page may not be full.
+
+    Let's think about the stacked sheets of paper, with eg. 5 slips on each
+    of them. With 12 match slips, things should look like this:
+
+    1   2   3
+    4   5   6
+    7   8
+    9   10
+    11  12
+
+    That way, when we stack the sheets and cut, we have the slips in order:
+    1 2 3, 4 5 6, 7 8, 9 10, 11 12.
+    We want to fill out the first columns as much as possible.
+
+    Pairings should be returned in the order we want. With the example above,
+    the returned pairings should be, by table number:
+    [1, 4, 7, 9, 11, 2, 5, 8, 10, 12, 3, 6]
+
+    See https://github.com/pmourlanne/taw/issues/6 for more details
+    """
+    if not pairings:
+        return pairings
+
+    # Let's manipulate table numbers, we'll come back to pairings after
+    pairings_per_table_number = {pairing.number: pairing for pairing in pairings}
+    table_numbers = sorted(pairings_per_table_number.keys())
+    nb_pages = math.ceil(len(table_numbers) / nb_slips_per_page)
+    nb_tables = len(table_numbers)
+
+    def _get_nb_tables_in_row(row_idx):
+        # All rows are full, easy peasy
+        if nb_tables % nb_slips_per_page == 0:
+            return nb_pages
+
+        # The first few rows are full  depending on nb_tables % nb_slips_perpage
+        if row_idx < nb_tables % nb_slips_per_page:
+            # print("row_idx < nb_tables % nb_slips_per_page")
+            # print(nb_pages)
+            return nb_pages
+
+        # The last rows may be missing *one* table, in the last column
+        return nb_pages - 1
+
+    def _get_nb_tables_in_column(col_idx):
+        # The last column may not be full
+        if col_idx == nb_pages - 1:
+            if nb_tables % nb_slips_per_page == 0:
+                return nb_slips_per_page
+            else:
+                return nb_tables % nb_slips_per_page
+
+        # All the other columns are full
+        return nb_slips_per_page
+
+    # We build the matrix, as seen in the docstring, with `nb_pages` columns
+    columns = [[] for page in range(nb_pages)]
+    # We now build each column
+    for col_idx, column in enumerate(columns):
+        for row_idx in range(_get_nb_tables_in_column(col_idx)):
+            # How many number of tables were already inserted
+            # in the previous rows?
+            nb_tables_in_previous_rows = sum(
+                [
+                    _get_nb_tables_in_row(previous_row_index)
+                    for previous_row_index in range(row_idx)
+                ]
+            )
+
+            # How many tables were already inserted in the current row?
+            nb_tables_in_current_row = col_idx
+
+            table_idx = nb_tables_in_previous_rows + nb_tables_in_current_row
+            column.append(table_idx)
+
+    # We flatten out the matrix, and get the table numbers from the table_idx
+    table_numbers_in_order = []
+    for column in columns:
+        for table_idx in column:
+            table_numbers_in_order.append(table_numbers[table_idx])
+
+    # Now it's back to pairings, from table number
+    return [
+        pairings_per_table_number[table_number]
+        for table_number in table_numbers_in_order
+    ]
 
 
 Standing = namedtuple(

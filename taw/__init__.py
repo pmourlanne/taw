@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 
 from taw.forms import PairingsForm, StandingsForm
-from taw.utils import get_pairings_by_name
+from taw.utils import get_pairings_by_name, sort_pairings_for_paper_cutter
 
 
 app = Flask(
@@ -67,6 +67,9 @@ def home():
 
         if request.form["action"] == "match_slips":
             pairings = form.parsed_pairings
+            # We want to print five match slips per page, and we want
+            # them to in the "correct" order when we use the paper cutter
+            pairings = sort_pairings_for_paper_cutter(pairings, nb_slips_per_page=5)
 
             rows = []
             for pairing in pairings:
@@ -79,8 +82,10 @@ def home():
                         "player_2_points": pairing.player_2.points,
                     },
                 )
-            rows = sorted(rows, key=lambda row: row["player_1"].lower())
-            return render_template("match_slips.html", rows=rows, **ctx)
+
+            return render_template(
+                "match_slips.html", rows=rows, **ctx, nb_slips_per_page=5
+            )
 
         if request.form["action"] == "standings":
             standings = form.parsed_standings

@@ -88,7 +88,7 @@
   </div>
 
   {# Every five match slip #}
-  {% if loop.index % 5 == 0 %}
+  {% if loop.index % nb_slips_per_page == 0 %}
   {# We add a separator (bottom of the page) #}
     <div class="container-fluid separator">
       <hr>
