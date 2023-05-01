@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <script src="js/bootstrap.bundle.min.js"></script>
-
-  <title>This Ain't WLTR</title>
-</head>
-
-<body>
-
+{% block body %}
   <div class="container mt-5">
     <div class="mb-3">
       <h1>
-        This Ain't WLTR
+        TAW Ain't WLTR
       </h1>
       <p>
-        This website lets you generate pairings, match slips (and soon stangings) for your AetherHub tournament.<br/>
-        This service is freely available. If you notice an issue while using it, feel free to open an issue in the <a href="https://github.com/pmourlanne/taw">Github repository</a>.
+        This website lets you generate pairings, match slips, and standings for your AetherHub tournament.<br/>
+        This service is freely available. If you notice an issue while using it, please open an issue in the <a href="https://github.com/pmourlanne/taw">Github repository</a>.
       </p>
     </div>
   </div>
@@ -71,17 +62,14 @@
               <button type="submit" class="btn btn-primary" name="action" value="pairings">Generate<br/>pairings</button>
             </div>
             <div class="col d-flex justify-content-center p-1">
-              <button type="submit" class="btn btn-primary" name="action" value="match_slips">Generate<br/>match slips</button>
+              <button type="submit" class="btn btn-primary" name="action" value="match_slips" disabled>Generate<br/>match slips (soon)</button>
             </div>
             <div class="col d-flex justify-content-center p-1">
-              <button type="submit" class="btn btn-primary" name="action" value="standings" disabled>Generate<br/>standings<br/>(Soon)</button>
+              <button type="submit" class="btn btn-primary" name="action" value="standings">Generate<br/>standings</button>
             </div>
           </div>
         </div>
       </div>
     </form>
   </div>
-
-</body>
-
-</html>
+{% endblock %}

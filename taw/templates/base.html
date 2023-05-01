@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.bundle.min.js"></script>
+
+  <title>{% block title %}TAW Ain't WLTR{% endblock %}</title>
+</head>
+
+<body>
+
+  {% block body %}{% endblock %}
+
+  {% block footer %}
+  <div class="container">
+    <footer class="my-4">
+      <ul class="nav justify-content-center border-top pb-3 mb-3">
+        <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Index</a></li>
+        <li class="nav-item"><a href="/help/" class="nav-link px-2 text-muted">Help</a></li>
+        <li class="nav-item"><a href="/faq/" class="nav-link px-2 text-muted">FAQ</a></li>
+      </ul>
+    </footer>
+  </div>
+  {% endblock %}
+
+</body>
+
+
+
+</html>

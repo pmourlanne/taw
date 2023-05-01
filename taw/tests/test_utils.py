@@ -1,7 +1,7 @@
 import pytest
 
-from taw.exceptions import ParsePairingException
-from taw.utils import parse_pairings, Table, Player
+from taw.exceptions import ParsePairingException, ParseStandingException
+from taw.utils import parse_pairings, parse_standings, Player, Standing, Table
 
 
 @pytest.mark.parametrize(
@@ -229,3 +229,169 @@ def test_parse_pairings(pairings_input, expected_output):
 
     else:
         assert parse_pairings(pairings_input) == expected_output
+
+
+@pytest.mark.parametrize(
+    "standings_input, expected_output",
+    [
+        pytest.param(
+            "1  Jacques Chirac    15  5 - 0   68.0000%    71.4285%    58.0696%",
+            [
+                Standing(
+                    position=1,
+                    player_name="Jacques Chirac",
+                    nb_points=15,
+                    record="5 - 0",
+                    omw="68.0000%",
+                    gw="71.4285%",
+                    ogw="58.0696%",
+                ),
+            ],
+            id="normal standing",
+        ),
+        pytest.param(
+            "1  Jacques Chirac    45  15 - 12   68.0000%    71.4285%    58.0696%",
+            [
+                Standing(
+                    position=1,
+                    player_name="Jacques Chirac",
+                    nb_points=45,
+                    record="15 - 12",
+                    omw="68.0000%",
+                    gw="71.4285%",
+                    ogw="58.0696%",
+                ),
+            ],
+            id="normal standing with a lot of matches",
+        ),
+        pytest.param(
+            "1  Vincent Auriol     13  4 - 0 - 1   64.0000%    61.5384%    53.2121% ",
+            [
+                Standing(
+                    position=1,
+                    player_name="Vincent Auriol",
+                    nb_points=13,
+                    record="4 - 0 - 1",
+                    omw="64.0000%",
+                    gw="61.5384%",
+                    ogw="53.2121%",
+                ),
+            ],
+            id="normal standing with draws",
+        ),
+        pytest.param(
+            """1   Jacques Chirac    15  5 - 0   68.0000%    71.4285%    58.0696%
+2   Vincent Auriol     13  4 - 0 - 1   64.0000%    61.5384%    53.2121%
+3   M.C. Hammer - U Can't Touch This!!     13  4 - 0 - 1   62.0000%    61.5384%    53.2051%
+4   🤡     12  4 - 1   61.3333%    75.0000%    53.9743% """,
+            [
+                Standing(
+                    position=1,
+                    player_name="Jacques Chirac",
+                    nb_points=15,
+                    record="5 - 0",
+                    omw="68.0000%",
+                    gw="71.4285%",
+                    ogw="58.0696%",
+                ),
+                Standing(
+                    position=2,
+                    player_name="Vincent Auriol",
+                    nb_points=13,
+                    record="4 - 0 - 1",
+                    omw="64.0000%",
+                    gw="61.5384%",
+                    ogw="53.2121%",
+                ),
+                Standing(
+                    position=3,
+                    player_name="M.C. Hammer - U Can't Touch This!!",
+                    nb_points=13,
+                    record="4 - 0 - 1",
+                    omw="62.0000%",
+                    gw="61.5384%",
+                    ogw="53.2051%",
+                ),
+                Standing(
+                    position=4,
+                    player_name="🤡",
+                    nb_points=12,
+                    record="4 - 1",
+                    omw="61.3333%",
+                    gw="75.0000%",
+                    ogw="53.9743%",
+                ),
+            ],
+            id="multiple rows of standings, with unexpected names",
+        ),
+        pytest.param(
+            """4   🤡     12  4 - 1   61.3333%    75.0000%    53.9743%
+3   M.C. Hammer - U Can't Touch This!!     13  4 - 0 - 1   62.0000%    61.5384%    53.2051%
+2   Vincent Auriol     13  4 - 0 - 1   64.0000%    61.5384%    53.2121%
+1   Jacques Chirac    15  5 - 0   68.0000%    71.4285%    58.0696% """,
+            [
+                Standing(
+                    position=1,
+                    player_name="Jacques Chirac",
+                    nb_points=15,
+                    record="5 - 0",
+                    omw="68.0000%",
+                    gw="71.4285%",
+                    ogw="58.0696%",
+                ),
+                Standing(
+                    position=2,
+                    player_name="Vincent Auriol",
+                    nb_points=13,
+                    record="4 - 0 - 1",
+                    omw="64.0000%",
+                    gw="61.5384%",
+                    ogw="53.2121%",
+                ),
+                Standing(
+                    position=3,
+                    player_name="M.C. Hammer - U Can't Touch This!!",
+                    nb_points=13,
+                    record="4 - 0 - 1",
+                    omw="62.0000%",
+                    gw="61.5384%",
+                    ogw="53.2051%",
+                ),
+                Standing(
+                    position=4,
+                    player_name="🤡",
+                    nb_points=12,
+                    record="4 - 1",
+                    omw="61.3333%",
+                    gw="75.0000%",
+                    ogw="53.9743%",
+                ),
+            ],
+            id="multiple rows of standings, not in order",
+        ),
+        pytest.param(
+            """1   Jacques Chirac    15  5 - 0   68.0000%    71.4285%    58.0696%
+3   Vincent Auriol     13  4 - 0 - 1   64.0000%    61.5384%    53.2121% """,
+            None,
+            id="missing position in standing",
+        ),
+        pytest.param(
+            """1   Jacques Chirac    15  5 - 0   68.0000%    71.4285%    58.0696%
+1   Vincent Auriol     13  4 - 0 - 1   64.0000%    61.5384%    53.2121% """,
+            None,
+            id="duplicate position in standing",
+        ),
+        pytest.param(
+            """2   Jacques Chirac    15  5 - 0   68.0000%    71.4285%    58.0696%""",
+            None,
+            id="position 1 is missing",
+        ),
+        pytest.param("", [], id="empty string"),
+    ],
+)
+def test_parse_standings(standings_input, expected_output):
+    if expected_output is None:
+        with pytest.raises(ParseStandingException):
+            parse_standings(standings_input)
+    else:
+        assert parse_standings(standings_input) == expected_output
