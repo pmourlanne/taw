@@ -124,6 +124,29 @@ def _parse_pairing(pairing_line):
     )
 
 
+def get_pairings_by_name(pairings):
+    # Each table must appear twice (once for each player)
+    ret = []
+    for table in pairings:
+        ret.append(
+            Table(
+                number=table.number,
+                player_1=table.player_1,
+                player_2=table.player_2,
+            ),
+        )
+        ret.append(
+            Table(
+                number=table.number,
+                player_1=table.player_2,
+                player_2=table.player_1,
+            ),
+        )
+
+    # Pairings should then be ordered by player name
+    return sorted(ret, key=lambda table: table.player_1.name.lower())
+
+
 Standing = namedtuple(
     "Standing", ["position", "player_name", "nb_points", "record", "omw", "gw", "ogw"]
 )

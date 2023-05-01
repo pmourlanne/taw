@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 from datetime import datetime
 
 from taw.forms import PairingsForm, StandingsForm
+from taw.utils import get_pairings_by_name
+
 
 app = Flask(
     __name__,
@@ -27,34 +29,25 @@ def home():
         }
 
         if request.form["action"] == "pairings":
-            pairings = form.parsed_pairings
+            pairings_by_name = get_pairings_by_name(form.parsed_pairings)
 
             rows = []
-            for pairing in pairings:
-                # We want to display each pairing twice, once for each player
-                rows.append(
-                    {
-                        "table_number": pairing.number,
-                        "player_1": pairing.player_1.name,
-                        "player_1_points": pairing.player_1.points,
-                        "player_2": pairing.player_2.name,
-                        "player_2_points": pairing.player_2.points,
-                    },
-                )
-                # Don't show the bye as player 1
+            for pairing in pairings_by_name:
+                # We don't want to show the bye as player 1
                 # TODO: Do better than checking against a string
-                if pairing.player_2.name != "BYE":
+                if pairing.player_1.name != "BYE":
                     rows.append(
                         {
                             "table_number": pairing.number,
-                            "player_1": pairing.player_2.name,
-                            "player_1_points": pairing.player_2.points,
-                            "player_2": pairing.player_1.name,
-                            "player_2_points": pairing.player_1.points,
+                            "player_1": pairing.player_1.name,
+                            "player_1_points": pairing.player_1.points,
+                            "player_2": pairing.player_2.name,
+                            "player_2_points": pairing.player_2.points,
                         },
                     )
-            rows = sorted(rows, key=lambda row: row["player_1"].lower())
+
             return render_template("pairings.html", rows=rows, **ctx)
+
         elif request.form["action"] == "match_slips":
             pairings = form.parsed_pairings
 
