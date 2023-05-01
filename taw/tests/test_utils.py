@@ -3,6 +3,7 @@ import pytest
 from taw.exceptions import ParsePairingException, ParseStandingException
 from taw.utils import (
     get_pairings_by_name,
+    sort_pairings_for_paper_cutter,
     parse_pairings,
     parse_standings,
     Player,
@@ -518,3 +519,68 @@ def test_parse_standings(standings_input, expected_output):
             parse_standings(standings_input)
     else:
         assert parse_standings(standings_input) == expected_output
+
+
+@pytest.mark.parametrize(
+    "min_table_nb, max_table_nb, expected_table_numbers",
+    [
+        pytest.param(1, 1, [1], id="one slip"),
+        pytest.param(1, 5, [1, 2, 3, 4, 5], id="one full page"),
+        pytest.param(1, 10, [1, 3, 5, 7, 9, 2, 4, 6, 8, 10], id="two full pages"),
+        pytest.param(1, 6, [1, 3, 4, 5, 6, 2], id="just over one page"),
+        pytest.param(
+            1,
+            24,
+            [
+                1,
+                6,
+                11,
+                16,
+                21,
+                2,
+                7,
+                12,
+                17,
+                22,
+                3,
+                8,
+                13,
+                18,
+                23,
+                4,
+                9,
+                14,
+                19,
+                24,
+                5,
+                10,
+                15,
+                20,
+            ],
+            id="almost five pages",
+        ),
+        pytest.param(
+            1,
+            17,
+            [1, 5, 9, 12, 15, 2, 6, 10, 13, 16, 3, 7, 11, 14, 17, 4, 8],
+            id="last page only has two slips",
+        ),
+    ],
+)
+def test_sort_pairings_for_paper_cutter(
+    min_table_nb, max_table_nb, expected_table_numbers
+):
+    pairings = [
+        Table(
+            number=idx,
+            player_1=Player(name=f"name_1_{idx}", points=0),
+            player_2=Player(name=f"name_2_{idx}", points=0),
+        )
+        for idx in range(min_table_nb, max_table_nb + 1)
+    ]
+
+    table_numbers = [
+        table.number
+        for table in sort_pairings_for_paper_cutter(pairings, nb_slips_per_page=5)
+    ]
+    assert table_numbers == expected_table_numbers
