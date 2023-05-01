@@ -14,14 +14,24 @@
     .signature {
         border-bottom: 2px solid black;
     }
-    .paper-slip__placeholder {
+    .match-slip__name {
+      height: 1.5em;
+    }
+    .match-slip__signature-label {
+      position: relative;
+      bottom: -2.5em;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: end;
+    }
+    .match-slip__placeholder {
         border-bottom: 2px solid black;
         height: 100%;
     }
-    .paper-slip__draw-line {
+    .match-slip__draw-line {
       height: 1.5em;
     }
-    .paper-slip__drop {
+    .match-slip__drop {
       width: 2em;
       height: 2em;
       border: 2px solid black;
@@ -29,7 +39,10 @@
     }
 
     @media print {
-        .pagebreak { page-break-before: always; }
+        .pagebreak {
+          page-break-before: always;
+          height: 1px;
+        }
     }
   </style>
   <title>Match slips round #{{ round_number }}</title>
@@ -49,48 +62,52 @@
 
     <div class="row">
         <div class="col-5"></div>
-        <div class="col-1">Sign</div>
+        <div class="col-2">Sign</div>
         <div class="col-1"></div>
         <div class="col-1">Wins</div>
         <div class="col-1">Draws</div>
-        <div class="col-2"></div>
+        <div class="col-1"></div>
         <div class="col-1">Drop</div>
     </div>
 
-    <div class="row my-2 paper-slip__p1-infos">
-        <div class="col-5">
+    <div class="row my-2 match-slip__p1-infos">
+        <div class="col-5 match-slip__name">
             {{ row["player_1"] }} ({{ row["player_1_points"] }} pts)
         </div>
-        <div class="col-1 signature"></div>
+        <div class="col-2 signature">
+          <div class="match-slip__signature-label">PLAYER 1</div>
+        </div>
         <div class="col-1"></div>
         <div class="col-1">
-            <div class="paper-slip__placeholder"></div>
+            <div class="match-slip__placeholder"></div>
         </div>
-        <div class="col-3"></div>
+        <div class="col-2"></div>
         <div class="col-1">
-            <div class="paper-slip__drop"></div>
+            <div class="match-slip__drop"></div>
         </div>
     </div>
 
-    <div class="row paper-slip__draw-line">
-        <div class="col-8"></div>
+    <div class="row match-slip__draw-line">
+        <div class="col-9"></div>
         <div class="col-1">
-            <div class="paper-slip__placeholder"></div>
+            <div class="match-slip__placeholder"></div>
         </div>
     </div>
 
-    <div class="row my-2 paper-slip__p2-infos">
-        <div class="col-5">
+    <div class="row my-2 match-slip__p2-infos">
+        <div class="col-5 match-slip__name">
             {{ row["player_2"] }} ({{ row["player_2_points"] }} pts)
         </div>
-        <div class="col-1 signature"></div>
+        <div class="col-2 signature">
+          <div class="match-slip__signature-label">PLAYER 2</div>
+        </div>
         <div class="col-1"></div>
         <div class="col-1">
-            <div class="paper-slip__placeholder"></div>
+            <div class="match-slip__placeholder"></div>
         </div>
-        <div class="col-3"></div>
+        <div class="col-2"></div>
         <div class="col-1">
-            <div class="paper-slip__drop"></div>
+            <div class="match-slip__drop"></div>
         </div>
     </div>
   </div>
