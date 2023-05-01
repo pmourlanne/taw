@@ -12,6 +12,9 @@ app = Flask(
 )
 
 
+NB_SLIPS_PER_PAGE = 5
+
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     # If we're asked to handle standings, we use the dedicated form
@@ -69,7 +72,10 @@ def home():
             pairings = form.parsed_pairings
             # We want to print five match slips per page, and we want
             # them to in the "correct" order when we use the paper cutter
-            pairings = sort_pairings_for_paper_cutter(pairings, nb_slips_per_page=5)
+            pairings = sort_pairings_for_paper_cutter(
+                pairings,
+                nb_slips_per_page=NB_SLIPS_PER_PAGE,
+            )
 
             rows = []
             for pairing in pairings:
@@ -84,7 +90,10 @@ def home():
                 )
 
             return render_template(
-                "match_slips.html", rows=rows, **ctx, nb_slips_per_page=5
+                "match_slips.html",
+                rows=rows,
+                nb_slips_per_page=NB_SLIPS_PER_PAGE,
+                **ctx,
             )
 
         if request.form["action"] == "standings":
