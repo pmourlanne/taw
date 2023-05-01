@@ -11,8 +11,8 @@
         overflow: visible;
         text-align: center;
     }
-    .paper-slip__signatures .signature {
-        border-top: 2px solid black;
+    .signature {
+        border-bottom: 2px solid black;
     }
     .paper-slip__placeholder {
         border-bottom: 2px solid black;
@@ -39,17 +39,21 @@
     </div>
 
     <div class="row">
-        <div class="col-6"></div>
+        <div class="col-5"></div>
+        <div class="col-1">Sign</div>
+        <div class="col-1"></div>
         <div class="col-1">Wins</div>
         <div class="col-1">Draws</div>
         <div class="col-2"></div>
-        <div class="col-2">Drop ?</div>
+        <div class="col-1">Drop</div>
     </div>
 
     <div class="row paper-slip__p1-infos">
-        <div class="col-6">
+        <div class="col-5">
             {{ row["player_1"] }} ({{ row["player_1_points"] }} pts)
         </div>
+        <div class="col-1 signature"></div>
+        <div class="col-1"></div>
         <div class="col-1">
             <div class="paper-slip__placeholder"></div>
         </div>
@@ -60,16 +64,18 @@
     </div>
 
     <div class="row">
-        <div class="col-7"></div>
+        <div class="col-8"></div>
         <div class="col-1">
             <div class="paper-slip__placeholder"></div>
         </div>
     </div>
 
     <div class="row paper-slip__p2-infos">
-        <div class="col-6">
+        <div class="col-5">
             {{ row["player_2"] }} ({{ row["player_2_points"] }} pts)
         </div>
+        <div class="col-1 signature"></div>
+        <div class="col-1"></div>
         <div class="col-1">
             <div class="paper-slip__placeholder"></div>
         </div>
@@ -78,13 +84,6 @@
             <div class="paper-slip__placeholder"></div>
         </div>
     </div>
-  </div>
-
-  <div class="row paper-slip__signatures">
-    <div class="col-5"></div>
-    <div class="col-2 signature">PLAYER 1</div>
-    <div class="col-1"></div>
-    <div class="col-2 signature">PLAYER 2</div>
   </div>
 
   {# Every five match slip #}
