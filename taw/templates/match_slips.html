@@ -120,6 +120,11 @@
     </div>
   {# We add a page break #}
     <div class="pagebreak"> </div>
+  {% elif loop.last %}
+  {# We want a separator for the last slip, even if it's not at the end of a page #}
+    <div class="container-fluid separator">
+      <hr>
+    </div>
   {% endif %}
 
   {% endfor %}
