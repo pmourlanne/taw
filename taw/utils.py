@@ -1,6 +1,7 @@
 import math
 import re
 from collections import Counter, namedtuple
+from itertools import zip_longest
 from operator import itemgetter
 
 from taw.exceptions import ParsePairingException, ParseStandingException
@@ -188,7 +189,7 @@ def sort_pairings_for_paper_cutter(pairings, *, nb_slips_per_page):
         if nb_tables % nb_slips_per_page == 0:
             return nb_pages
 
-        # The first few rows are full  depending on nb_tables % nb_slips_perpage
+        # The first few rows are full  depending on nb_tables % nb_slips_per_page
         if row_idx < nb_tables % nb_slips_per_page:
             # print("row_idx < nb_tables % nb_slips_per_page")
             # print(nb_pages)
@@ -197,42 +198,32 @@ def sort_pairings_for_paper_cutter(pairings, *, nb_slips_per_page):
         # The last rows may be missing *one* table, in the last column
         return nb_pages - 1
 
-    def _get_nb_tables_in_column(col_idx):
-        # The last column may not be full
-        if col_idx == nb_pages - 1:
-            if nb_tables % nb_slips_per_page == 0:
-                return nb_slips_per_page
-            else:
-                return nb_tables % nb_slips_per_page
+    # We build the "matrix" for tables. It's not really a matrix, since
+    # some rows are longer than others.
+    matrix = [
+        # Rows are of different sizes
+        [None] * _get_nb_tables_in_row(row_idx)
+        # There are `nb_slips_per_page` rows
+        for row_idx in range(nb_slips_per_page)
+    ]
 
-        # All the other columns are full
-        return nb_slips_per_page
+    # Now we just fill out the matrix, iterating over each line
+    table_idx = 0
+    for row in matrix:
+        for row_idx in range(len(row)):
+            row[row_idx] = table_numbers[table_idx]
+            table_idx += 1
 
-    # We build the matrix, as seen in the docstring, with `nb_pages` columns
-    columns = [[] for page in range(nb_pages)]
-    # We now build each column
-    for col_idx, column in enumerate(columns):
-        for row_idx in range(_get_nb_tables_in_column(col_idx)):
-            # How many number of tables were already inserted
-            # in the previous rows?
-            nb_tables_in_previous_rows = sum(
-                [
-                    _get_nb_tables_in_row(previous_row_index)
-                    for previous_row_index in range(row_idx)
-                ]
-            )
-
-            # How many tables were already inserted in the current row?
-            nb_tables_in_current_row = col_idx
-
-            table_idx = nb_tables_in_previous_rows + nb_tables_in_current_row
-            column.append(table_idx)
-
-    # We flatten out the matrix, and get the table numbers from the table_idx
-    table_numbers_in_order = []
-    for column in columns:
-        for table_idx in column:
-            table_numbers_in_order.append(table_numbers[table_idx])
+    # We "inverse" the matrix, to get the list of columns instead of the list of rows
+    inversed_matrix = zip_longest(*matrix)
+    # We flatten the list of columns into a simple list,
+    # and we remove the `None` values introduced by zip_longest
+    table_numbers_in_order = [
+        table_number
+        for column in inversed_matrix
+        for table_number in column
+        if table_number is not None
+    ]
 
     # Now it's back to pairings, from table number
     return [
