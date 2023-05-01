@@ -524,10 +524,12 @@ def test_parse_standings(standings_input, expected_output):
 @pytest.mark.parametrize(
     "min_table_nb, max_table_nb, expected_table_numbers",
     [
-        pytest.param(1, 1, [1], id="one slip"),
+        pytest.param(1, 1, [1, None, None, None, None], id="one slip"),
         pytest.param(1, 5, [1, 2, 3, 4, 5], id="one full page"),
         pytest.param(1, 10, [1, 3, 5, 7, 9, 2, 4, 6, 8, 10], id="two full pages"),
-        pytest.param(1, 6, [1, 3, 4, 5, 6, 2], id="just over one page"),
+        pytest.param(
+            1, 6, [1, 3, 5, None, None, 2, 4, 6, None, None], id="just over one page"
+        ),
         pytest.param(
             1,
             24,
@@ -556,14 +558,42 @@ def test_parse_standings(standings_input, expected_output):
                 10,
                 15,
                 20,
+                None,
             ],
             id="almost five pages",
         ),
         pytest.param(
             1,
             17,
-            [1, 5, 9, 12, 15, 2, 6, 10, 13, 16, 3, 7, 11, 14, 17, 4, 8],
-            id="last page only has two slips",
+            [
+                1,
+                5,
+                9,
+                13,
+                17,
+                2,
+                6,
+                10,
+                14,
+                None,
+                3,
+                7,
+                11,
+                15,
+                None,
+                4,
+                8,
+                12,
+                16,
+                None,
+            ],
+            id="last row only has one slip",
+        ),
+        pytest.param(
+            1,
+            12,
+            [1, 4, 7, 10, None, 2, 5, 8, 11, None, 3, 6, 9, 12, None],
+            id="there are only four match slips per page",
         ),
     ],
 )
@@ -580,7 +610,7 @@ def test_sort_pairings_for_paper_cutter(
     ]
 
     table_numbers = [
-        table.number
+        table.number if table is not None else None
         for table in sort_pairings_for_paper_cutter(pairings, nb_slips_per_page=5)
     ]
     assert table_numbers == expected_table_numbers

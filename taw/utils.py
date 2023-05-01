@@ -157,21 +157,23 @@ def sort_pairings_for_paper_cutter(pairings, *, nb_slips_per_page):
     page may not be full.
 
     Let's think about the stacked sheets of paper, with eg. 5 slips on each
-    of them. With 12 match slips, things should look like this:
+    of them. With 13 match slips, things should look like this:
 
     1   2   3
     4   5   6
-    7   8
-    9   10
-    11  12
+    7   8   9
+    10  11  12
+    13
 
     That way, when we stack the sheets and cut, we have the slips in order:
-    1 2 3, 4 5 6, 7 8, 9 10, 11 12.
-    We want to fill out the first columns as much as possible.
+    1 2 3, 4 5 6, 7 8 9, 10 11 12, 13.
+    We want to use as few paper sheets as possible, and we want to have as
+    few "incomplete" lines as possible.
 
-    Pairings should be returned in the order we want. With the example above,
+    Pairings should be returned in the order we want them printed. To indicate
+    incomplete columns, `None` should be present. With the example above,
     the returned pairings should be, by table number:
-    [1, 4, 7, 9, 11, 2, 5, 8, 10, 12, 3, 6]
+    [1, 4, 7, 10, 13, 2, 5, 8, 11, None, 3, 6, 9, 12, None]
 
     See https://github.com/pmourlanne/taw/issues/6 for more details
     """
@@ -185,18 +187,14 @@ def sort_pairings_for_paper_cutter(pairings, *, nb_slips_per_page):
     nb_tables = len(table_numbers)
 
     def _get_nb_tables_in_row(row_idx):
-        # All rows are full, easy peasy
-        if nb_tables % nb_slips_per_page == 0:
+        # The first row is always full, otherwise we'd done one page fewer
+        if row_idx == 0:
             return nb_pages
 
-        # The first few rows are full  depending on nb_tables % nb_slips_per_page
-        if row_idx < nb_tables % nb_slips_per_page:
-            # print("row_idx < nb_tables % nb_slips_per_page")
-            # print(nb_pages)
-            return nb_pages
-
-        # The last rows may be missing *one* table, in the last column
-        return nb_pages - 1
+        total_nb_slips_in_previous_rows = sum(
+            [_get_nb_tables_in_row(idx) for idx in range(row_idx - 1, -1, -1)]
+        )
+        return min(nb_pages, nb_tables - total_nb_slips_in_previous_rows)
 
     # We build the "matrix" for tables. It's not really a matrix, since
     # some rows are longer than others.
@@ -217,17 +215,14 @@ def sort_pairings_for_paper_cutter(pairings, *, nb_slips_per_page):
     # We "inverse" the matrix, to get the list of columns instead of the list of rows
     inversed_matrix = zip_longest(*matrix)
     # We flatten the list of columns into a simple list,
-    # and we remove the `None` values introduced by zip_longest
+    # `zip_longest` will add `None` to "unfinished" columns
     table_numbers_in_order = [
-        table_number
-        for column in inversed_matrix
-        for table_number in column
-        if table_number is not None
+        table_number for column in inversed_matrix for table_number in column
     ]
 
     # Now it's back to pairings, from table number
     return [
-        pairings_per_table_number[table_number]
+        pairings_per_table_number[table_number] if table_number is not None else None
         for table_number in table_numbers_in_order
     ]
 
