@@ -72,7 +72,7 @@
 
     <div class="row my-2 match-slip__p1-infos">
         <div class="col-5 match-slip__name">
-            {{ row["player_1"][:55] }} ({{ row["player_1_points"] }} pts)
+            {{ row["player_1"][:55] }} {% if row["player_1_points"] is not none %}({{ row["player_1_points"] }} pts){% endif %}
         </div>
         <div class="col-2 signature">
           <div class="match-slip__signature-label">PLAYER 1</div>
@@ -96,7 +96,7 @@
 
     <div class="row my-2 match-slip__p2-infos">
         <div class="col-5 match-slip__name">
-            {{ row["player_2"][:55] }} ({{ row["player_2_points"] }} pts)
+            {{ row["player_2"][:55] }} {% if row["player_2_points"] is not none %}({{ row["player_2_points"] }} pts){% endif %}
         </div>
         <div class="col-2 signature">
           <div class="match-slip__signature-label">PLAYER 2</div>
@@ -112,19 +112,19 @@
     </div>
   </div>
 
-  {# Every five match slip #}
-  {% if loop.index % nb_slips_per_page == 0 %}
+  {% if loop.last %}
+  {# We want a separator for the last slip #}
+    <div class="container-fluid separator">
+      <hr>
+    </div>
+  {# At the bottom of every page (based on `nb_slips_per_page`) #}
+  {% elif loop.index % nb_slips_per_page == 0 %}
   {# We add a separator (bottom of the page) #}
     <div class="container-fluid separator">
       <hr>
     </div>
-  {# We add a page break #}
-    <div class="pagebreak"> </div>
-  {% elif loop.last %}
-  {# We want a separator for the last slip, even if it's not at the end of a page #}
-    <div class="container-fluid separator">
-      <hr>
-    </div>
+  {# and a page break #}
+    <div class="pagebreak"></div>
   {% endif %}
 
   {% endfor %}

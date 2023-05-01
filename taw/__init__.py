@@ -61,15 +61,27 @@ def home():
 
             rows = []
             for pairing in pairings:
-                rows.append(
-                    {
-                        "table_number": pairing.number,
-                        "player_1": pairing.player_1.name,
-                        "player_1_points": pairing.player_1.points,
-                        "player_2": pairing.player_2.name,
-                        "player_2_points": pairing.player_2.points,
-                    },
-                )
+                if pairing is not None:
+                    rows.append(
+                        {
+                            "table_number": pairing.number,
+                            "player_1": pairing.player_1.name,
+                            "player_1_points": pairing.player_1.points,
+                            "player_2": pairing.player_2.name,
+                            "player_2_points": pairing.player_2.points,
+                        },
+                    )
+                else:
+                    # Empty pairing
+                    rows.append(
+                        {
+                            "table_number": "",
+                            "player_1": "",
+                            "player_1_points": None,
+                            "player_2": "",
+                            "player_2_points": None,
+                        },
+                    )
 
             return render_template(
                 "match_slips.html",
