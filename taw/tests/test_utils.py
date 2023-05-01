@@ -1,7 +1,14 @@
 import pytest
 
 from taw.exceptions import ParsePairingException, ParseStandingException
-from taw.utils import parse_pairings, parse_standings, Player, Standing, Table
+from taw.utils import (
+    get_pairings_by_name,
+    parse_pairings,
+    parse_standings,
+    Player,
+    Standing,
+    Table,
+)
 
 
 @pytest.mark.parametrize(
@@ -229,6 +236,122 @@ def test_parse_pairings(pairings_input, expected_output):
 
     else:
         assert parse_pairings(pairings_input) == expected_output
+
+
+@pytest.mark.parametrize(
+    "pairings, pairings_by_name",
+    [
+        pytest.param(
+            [
+                Table(
+                    number=1,
+                    player_1=Player(
+                        name="Élisabeth Borne",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="Maurice Couve de Murville",
+                        points=0,
+                    ),
+                ),
+                Table(
+                    number=2,
+                    player_1=Player(
+                        name="François Fillon",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="Pierre Messmer",
+                        points=0,
+                    ),
+                ),
+                Table(
+                    number=3,
+                    player_1=Player(
+                        name="Édith Cresson",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="Bernard Cazeneuve",
+                        points=0,
+                    ),
+                ),
+            ],
+            [
+                Table(
+                    number=3,
+                    player_1=Player(
+                        name="Bernard Cazeneuve",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="Édith Cresson",
+                        points=0,
+                    ),
+                ),
+                Table(
+                    number=3,
+                    player_1=Player(
+                        name="Édith Cresson",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="Bernard Cazeneuve",
+                        points=0,
+                    ),
+                ),
+                Table(
+                    number=1,
+                    player_1=Player(
+                        name="Élisabeth Borne",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="Maurice Couve de Murville",
+                        points=0,
+                    ),
+                ),
+                Table(
+                    number=2,
+                    player_1=Player(
+                        name="François Fillon",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="Pierre Messmer",
+                        points=0,
+                    ),
+                ),
+                Table(
+                    number=1,
+                    player_1=Player(
+                        name="Maurice Couve de Murville",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="Élisabeth Borne",
+                        points=0,
+                    ),
+                ),
+                Table(
+                    number=2,
+                    player_1=Player(
+                        name="Pierre Messmer",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="François Fillon",
+                        points=0,
+                    ),
+                ),
+            ],
+            id="ordering unicode characters, see https://github.com/pmourlanne/taw/issues/17",
+            marks=[pytest.mark.xfail],
+        ),
+    ],
+)
+def test_get_pairings_by_name(pairings, pairings_by_name):
+    assert get_pairings_by_name(pairings) == pairings_by_name
 
 
 @pytest.mark.parametrize(
