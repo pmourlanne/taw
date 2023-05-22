@@ -1,3 +1,5 @@
+import base64
+
 from flask import Flask, render_template, request
 
 from taw.forms import PairingsForm, StandingsForm
@@ -29,6 +31,15 @@ def home():
             "tournament_name": form.tournament_name.data,
             "round_number": form.round_number.data,
         }
+
+        tournament_logo_base64 = None
+        if form.tournament_logo.data:
+            tournament_logo_base64 = base64.b64encode(
+                form.tournament_logo.raw_data[0].read()
+            )
+            tournament_logo_base64 = tournament_logo_base64.decode("utf-8")
+
+        ctx["tournament_logo_base64"] = tournament_logo_base64
 
         if request.form["action"] == "pairings":
             pairings_by_name = get_pairings_by_name(form.parsed_pairings)

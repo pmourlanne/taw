@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField
 from wtforms import IntegerField, StringField, TextAreaField
 from wtforms.validators import DataRequired, NumberRange, ValidationError
 
@@ -16,6 +17,8 @@ class BaseForm(FlaskForm):
         validators=[DataRequired()],
         description="Select your pairings / standings from Aetherhub and copy paste them here",
     )
+    # Optional fields
+    tournament_logo = FileField("Optional: Tournament Logo")
 
     class Meta:
         # We don't handle sensitive data, I can't be bothered to set up a secret key properly

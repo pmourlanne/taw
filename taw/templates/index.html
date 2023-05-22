@@ -14,7 +14,7 @@
   </div>
 
   <div class="container mt-3">
-    <form action="/" method="POST">
+    <form action="/" method="POST" enctype="multipart/form-data">
       <div class="row">
         <div class="col-lg-8 col-sm-12 mb-3">
             {{ form.aetherhub_dump.label(class_="form-label") }}
@@ -55,6 +55,11 @@
               {% endfor %}
             </div>
             {% endif %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.tournament_logo.label(class_="form-label") }}
+            {{ form.tournament_logo(class_="form-control") }}
           </div>
 
           <div class="row mb-3">
