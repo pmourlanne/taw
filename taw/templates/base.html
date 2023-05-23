@@ -4,6 +4,14 @@
 <head>
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function(){
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      });
+    }, false);
+  </script>
 
   <title>{% block title %}TAW Ain't WLTR{% endblock %}</title>
 </head>
