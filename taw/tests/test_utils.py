@@ -347,7 +347,6 @@ def test_parse_pairings(pairings_input, expected_output):
                 ),
             ],
             id="ordering unicode characters, see https://github.com/pmourlanne/taw/issues/17",
-            marks=[pytest.mark.xfail],
         ),
     ],
 )

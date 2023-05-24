@@ -1,5 +1,6 @@
 import math
 import re
+import unicodedata
 from collections import Counter, namedtuple
 from itertools import zip_longest
 from operator import itemgetter
@@ -126,6 +127,15 @@ def _parse_pairing(pairing_line):
     )
 
 
+def _remove_accents(input_str):
+    """
+    See https://github.com/pmourlanne/taw/issues/17
+    """
+    nfkd_form = unicodedata.normalize("NFKD", input_str)
+    only_ascii = nfkd_form.encode("ASCII", "ignore")
+    return only_ascii
+
+
 def get_pairings_by_name(pairings):
     # Each table must appear twice (once for each player)
     ret = []
@@ -146,7 +156,7 @@ def get_pairings_by_name(pairings):
         )
 
     # Pairings should then be ordered by player name
-    return sorted(ret, key=lambda table: table.player_1.name.lower())
+    return sorted(ret, key=lambda table: _remove_accents(table.player_1.name.lower()))
 
 
 def sort_pairings_for_paper_cutter(pairings, *, nb_slips_per_page):
