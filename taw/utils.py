@@ -164,7 +164,9 @@ def get_pairings_by_name(pairings, *, first_table_number=None):
     return sorted(ret, key=lambda table: _remove_accents(table.player_1.name.lower()))
 
 
-def sort_pairings_for_paper_cutter(pairings, *, nb_slips_per_page):
+def sort_pairings_for_paper_cutter(
+    pairings, *, nb_slips_per_page, first_table_number=None
+):
     """
     We need to sort pairings so that when we stack each page, and cut
     them up with a paper cutter, the slips are ordered within each stack.
@@ -194,6 +196,22 @@ def sort_pairings_for_paper_cutter(pairings, *, nb_slips_per_page):
     """
     if not pairings:
         return pairings
+
+    # 0 is not a valid first table number so a falsy check is enough,
+    # we don't need to explicitly check against `None`
+    first_table_number = first_table_number or 1
+    table_number_offset = first_table_number - 1
+
+    if table_number_offset:
+        # Offset the tables before manipulating anything
+        original_pairings = pairings
+        pairings = []
+        for original_pairing in original_pairings:
+            pairings.append(
+                original_pairing._replace(
+                    number=original_pairing.number + table_number_offset
+                )
+            )
 
     # Let's manipulate table numbers, we'll come back to pairings after
     pairings_per_table_number = {pairing.number: pairing for pairing in pairings}

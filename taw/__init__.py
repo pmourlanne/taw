@@ -71,6 +71,7 @@ def home():
             pairings = sort_pairings_for_paper_cutter(
                 pairings,
                 nb_slips_per_page=NB_SLIPS_PER_PAGE,
+                first_table_number=form.first_table_number.data,
             )
 
             rows = []
