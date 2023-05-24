@@ -599,17 +599,22 @@ def test_parse_standings(standings_input, expected_output):
 
 
 @pytest.mark.parametrize(
-    "min_table_nb, max_table_nb, expected_table_numbers",
+    "min_table_nb, max_table_nb, first_table_number, expected_table_numbers",
     [
-        pytest.param(1, 1, [1, None, None, None, None], id="one slip"),
-        pytest.param(1, 5, [1, 2, 3, 4, 5], id="one full page"),
-        pytest.param(1, 10, [1, 3, 5, 7, 9, 2, 4, 6, 8, 10], id="two full pages"),
+        pytest.param(1, 1, None, [1, None, None, None, None], id="one slip"),
+        pytest.param(1, 5, None, [1, 2, 3, 4, 5], id="one full page"),
+        pytest.param(1, 10, None, [1, 3, 5, 7, 9, 2, 4, 6, 8, 10], id="two full pages"),
         pytest.param(
-            1, 6, [1, 3, 5, None, None, 2, 4, 6, None, None], id="just over one page"
+            1,
+            6,
+            None,
+            [1, 3, 5, None, None, 2, 4, 6, None, None],
+            id="just over one page",
         ),
         pytest.param(
             1,
             24,
+            None,
             [
                 1,
                 6,
@@ -642,6 +647,7 @@ def test_parse_standings(standings_input, expected_output):
         pytest.param(
             1,
             17,
+            None,
             [
                 1,
                 5,
@@ -669,13 +675,31 @@ def test_parse_standings(standings_input, expected_output):
         pytest.param(
             1,
             12,
+            None,
             [1, 4, 7, 10, None, 2, 5, 8, 11, None, 3, 6, 9, 12, None],
             id="there are only four match slips per page",
+        ),
+        pytest.param(
+            1, 5, 1, [1, 2, 3, 4, 5], id="one full page with 1 table number offset"
+        ),
+        pytest.param(
+            1,
+            5,
+            100,
+            [100, 101, 102, 103, 104],
+            id="one full page with 100 table number offset",
+        ),
+        pytest.param(
+            1,
+            8,
+            50,
+            [50, 52, 54, 56, None, 51, 53, 55, 57, None],
+            id="a bit over a page with 50 table number offset",
         ),
     ],
 )
 def test_sort_pairings_for_paper_cutter(
-    min_table_nb, max_table_nb, expected_table_numbers
+    min_table_nb, max_table_nb, first_table_number, expected_table_numbers
 ):
     pairings = [
         Table(
@@ -688,6 +712,10 @@ def test_sort_pairings_for_paper_cutter(
 
     table_numbers = [
         table.number if table is not None else None
-        for table in sort_pairings_for_paper_cutter(pairings, nb_slips_per_page=5)
+        for table in sort_pairings_for_paper_cutter(
+            pairings,
+            nb_slips_per_page=5,
+            first_table_number=first_table_number,
+        )
     ]
     assert table_numbers == expected_table_numbers
