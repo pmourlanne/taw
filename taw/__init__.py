@@ -42,7 +42,10 @@ def home():
         ctx["tournament_logo_base64"] = tournament_logo_base64
 
         if request.form["action"] == "pairings":
-            pairings_by_name = get_pairings_by_name(form.parsed_pairings)
+            pairings_by_name = get_pairings_by_name(
+                form.parsed_pairings,
+                first_table_number=form.first_table_number.data,
+            )
 
             rows = []
             for pairing in pairings_by_name:
