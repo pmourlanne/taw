@@ -136,20 +136,25 @@ def _remove_accents(input_str):
     return only_ascii
 
 
-def get_pairings_by_name(pairings):
+def get_pairings_by_name(pairings, *, first_table_number=None):
+    # 0 is not a valid first table number so a falsy check is enough,
+    # we don't need to explicitly check against `None`
+    first_table_number = first_table_number or 1
+    table_number_offset = first_table_number - 1
+
     # Each table must appear twice (once for each player)
     ret = []
     for table in pairings:
         ret.append(
             Table(
-                number=table.number,
+                number=table.number + table_number_offset,
                 player_1=table.player_1,
                 player_2=table.player_2,
             ),
         )
         ret.append(
             Table(
-                number=table.number,
+                number=table.number + table_number_offset,
                 player_1=table.player_2,
                 player_2=table.player_1,
             ),

@@ -240,7 +240,7 @@ def test_parse_pairings(pairings_input, expected_output):
 
 
 @pytest.mark.parametrize(
-    "pairings, pairings_by_name",
+    "pairings, first_table_number, pairings_by_name",
     [
         pytest.param(
             [
@@ -278,6 +278,7 @@ def test_parse_pairings(pairings_input, expected_output):
                     ),
                 ),
             ],
+            None,
             [
                 Table(
                     number=3,
@@ -348,10 +349,87 @@ def test_parse_pairings(pairings_input, expected_output):
             ],
             id="ordering unicode characters, see https://github.com/pmourlanne/taw/issues/17",
         ),
+        pytest.param(
+            [
+                Table(
+                    number=1,
+                    player_1=Player(
+                        name="Jacques Chirac",
+                        points=15,
+                    ),
+                    player_2=Player(
+                        name="François Mitterrand",
+                        points=13,
+                    ),
+                ),
+                Table(
+                    number=2,
+                    player_1=Player(
+                        name="Vincent Auriol",
+                        points=13,
+                    ),
+                    player_2=Player(
+                        name="René Coty",
+                        points=9,
+                    ),
+                ),
+            ],
+            100,
+            [
+                Table(
+                    number=100,
+                    player_1=Player(
+                        name="François Mitterrand",
+                        points=13,
+                    ),
+                    player_2=Player(
+                        name="Jacques Chirac",
+                        points=15,
+                    ),
+                ),
+                Table(
+                    number=100,
+                    player_1=Player(
+                        name="Jacques Chirac",
+                        points=15,
+                    ),
+                    player_2=Player(
+                        name="François Mitterrand",
+                        points=13,
+                    ),
+                ),
+                Table(
+                    number=101,
+                    player_1=Player(
+                        name="René Coty",
+                        points=9,
+                    ),
+                    player_2=Player(
+                        name="Vincent Auriol",
+                        points=13,
+                    ),
+                ),
+                Table(
+                    number=101,
+                    player_1=Player(
+                        name="Vincent Auriol",
+                        points=13,
+                    ),
+                    player_2=Player(
+                        name="René Coty",
+                        points=9,
+                    ),
+                ),
+            ],
+            id="table number offset",
+        ),
     ],
 )
-def test_get_pairings_by_name(pairings, pairings_by_name):
-    assert get_pairings_by_name(pairings) == pairings_by_name
+def test_get_pairings_by_name(pairings, first_table_number, pairings_by_name):
+    assert (
+        get_pairings_by_name(pairings, first_table_number=first_table_number)
+        == pairings_by_name
+    )
 
 
 @pytest.mark.parametrize(
