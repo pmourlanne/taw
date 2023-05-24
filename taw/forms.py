@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
 from wtforms import IntegerField, StringField, TextAreaField
-from wtforms.validators import DataRequired, NumberRange, ValidationError
+from wtforms.validators import DataRequired, NumberRange, Optional, ValidationError
 
 from taw.exceptions import ParsePairingException, ParseStandingException
 from taw.utils import parse_pairings, parse_standings
@@ -19,6 +19,9 @@ class BaseForm(FlaskForm):
     )
     # Optional fields
     tournament_logo = FileField("Optional: Tournament Logo")
+    first_table_number = IntegerField(
+        "Optional: First table number", validators=[Optional(), NumberRange(min=1)]
+    )
 
     class Meta:
         # We don't handle sensitive data, I can't be bothered to set up a secret key properly
