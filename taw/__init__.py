@@ -16,7 +16,7 @@ app = Flask(
 )
 
 # See https://github.com/pmourlanne/taw/issues/27
-UPLOADS_FOLDER = "tmp/"
+UPLOADS_FOLDER = "/tmp/"
 
 NB_SLIPS_PER_PAGE = 5
 
@@ -131,4 +131,4 @@ def faq():
 
 @app.route("/uploads/<path:name>")
 def uploads(name):
-    return send_from_directory(os.path.join("..", UPLOADS_FOLDER), name)
+    return send_from_directory(os.path.join(UPLOADS_FOLDER), name)
