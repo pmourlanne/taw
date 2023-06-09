@@ -39,7 +39,7 @@
 
   {% if tournament_logo_filename %}
   <div class="tournament-logo">
-    <img class="tournament-logo" src="{{ tournament_logo_filename }}" />
+    <img class="tournament-logo" src="{{ url_for('uploads', name=tournament_logo_filename) }}" />
   </div>
   {% endif %}
 
