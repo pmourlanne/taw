@@ -11,13 +11,21 @@
         This service is freely available. If you notice an issue while using it, please open an issue in the <a href="https://github.com/pmourlanne/taw">Github repository</a>.
       </p>
     </div>
+    <hr />
   </div>
 
   <div class="container mt-3">
     <form action="/" method="POST" enctype="multipart/form-data">
       <div class="row">
         <div class="col-lg-8 col-sm-12 mb-3">
-            {{ form.aetherhub_dump.label(class_="form-label") }}
+            <div class="row">
+              <div class="col-8">
+                {{ form.aetherhub_dump.label(class_="form-label") }}
+              </div>
+              <div class="col-4 d-flex justify-content-end">
+                <a href="#" class="link-secondary" onclick="document.getElementById('aetherhub_dump').value = ''">Clear input</a>
+              </div>
+            </div>
             {{ form.aetherhub_dump(class_="form-control", rows=10, **{"aria-describedby": "aetherhub_dump_description"}) }}
             <div id="aetherhub_dump_description" class="form-text">{{ form.aetherhub_dump.description }}</div>
 
