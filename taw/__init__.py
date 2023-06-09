@@ -1,7 +1,7 @@
 import os
 import uuid
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from werkzeug.utils import secure_filename
 
 from taw.forms import PairingsForm, StandingsForm
@@ -15,8 +15,8 @@ app = Flask(
     template_folder="templates",
 )
 
-app.config["UPLOAD_FOLDER"] = "taw/static/uploads"
-
+# See https://github.com/pmourlanne/taw/issues/27
+UPLOADS_FOLDER = "tmp/"
 
 NB_SLIPS_PER_PAGE = 5
 
@@ -42,10 +42,9 @@ def home():
             filename = secure_filename(data.filename)
             filename, file_extension = os.path.splitext(filename)
             # Make sure the filename is unique
-            filename = f"{filename}-{uuid.uuid4()}{file_extension}"
+            tournament_logo_filename = f"{filename}-{uuid.uuid4()}{file_extension}"
 
-            data.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            tournament_logo_filename = os.path.join("/uploads/", filename)
+            data.save(os.path.join(UPLOADS_FOLDER, tournament_logo_filename))
 
         ctx["tournament_logo_filename"] = tournament_logo_filename
 
@@ -128,3 +127,8 @@ def help_page():
 @app.route("/faq/")
 def faq():
     return render_template("faq.html")
+
+
+@app.route("/uploads/<path:name>")
+def uploads(name):
+    return send_from_directory(os.path.join("..", UPLOADS_FOLDER), name)
