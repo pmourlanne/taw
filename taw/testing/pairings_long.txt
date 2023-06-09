@@ -1,0 +1,32 @@
+1   Henri III (0 Points)    Hugues Capet (0 Points)     2 - 1   
+2   Clotaire III (0 Points)     Childéric II (0 Points)     2 - 0   
+3   Philippe V le Long (0 Points)   Henri IV (0 Points)     0 - 2   
+4   Louis-Philippe Ier (0 Points)   Louis V le Fainénant (0 Points)     1 - 0 - 1   
+5   Louis Ier le Pieux (0 Points)   Clotaire Ier (0 Points)     2 - 0   
+6   Philippe IV le Bel (0 Points)   Charles X (0 Points)    1 - 2   
+7   François II (0 Points)  Clovis II (0 Points)    1 - 1 - 1   
+8   Charles V (0 Points)    Louis VIII le Lion (0 Points)   1 - 0   
+9   Charles II le Chauve (0 Points)     Jean Ier (0 Points)     2 - 0   
+10  Louis XII (0 Points)    Charles VII le Victorieux (0 Points)    0 - 2   
+11  Louis XVI (0 Points)    Charles IV (0 Points)   1 - 2   
+12  Philippe II Auguste (0 Points)  Henri II (0 Points)     2 - 1   
+13  Eudes (0 Points)    Clovis Ier (0 Points)   1 - 2   
+14  Raoul (0 Points)    Clovis III (0 Points)   2 - 0   
+15  Charles IX (0 Points)   Childebert III (0 Points)   1 - 2   
+16  Robert II le Pieux (0 Points)   Thierry III (0 Points)  2 - 1   
+17  Louis IV d’Outremer (0 Points)  Lothaire (0 Points)     1 - 2   
+18  Chilpéric II (0 Points)     Louis X le Hutin (0 Points)     1 - 1   
+19  Charles VI le Fol (0 Points)    Clotaire II (0 Points)  2 - 0   
+20  Louis II le Bègue (0 Points)    Louis XIII (0 Points)   2 - 1   
+21  Thierry IV (0 Points)   Henri Ier (0 Points)    2 - 0   
+22  Pépin le Bref (0 Points)    Louis III (0 Points)    2 - 1   
+23  Louis XIV (0 Points)    Charles III (0 Points)  1 - 1   
+24  Charles VIII (0 Points)     Philippe III le Hardi (0 Points)    2 - 0   
+25  Carloman (0 Points)     Charles III le Gros (0 Points)  0 - 2   
+26  Dagobert III (0 Points)     Louis IX (0 Points)     2 - 0   
+27  Childéric III (0 Points)    Louis VII (0 Points)    0 - 2   
+28  Jean II le Bon (0 Points)   Louis XV (0 Points)     1 - 2   
+29  Dagobert Ier (0 Points)     François Ier (0 Points)     2 - 1   
+30  Philippe Ier (0 Points)     Philippe VI (0 Points)  1 - 2   
+31  Louis VI le Gros (0 Points)     Louis XVIII (0 Points)  2 - 0   
+32  Louis XI (0 Points)     Robert Ier (0 Points)   0 - 2   
