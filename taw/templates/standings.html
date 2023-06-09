@@ -37,13 +37,13 @@
     </div>
   </div>
 
-  {% if tournament_logo_base64 %}
+  {% if tournament_logo_filename %}
   <div class="tournament-logo">
-    <img src="data:image/png;base64, {{ tournament_logo_base64 }}" />
+    <img class="tournament-logo" src="{{ tournament_logo_filename }}" />
   </div>
   {% endif %}
 
-  <div class="container-fluid {% if tournament_logo_base64 %}mt-6{% else %}mt-5{% endif %}">
+  <div class="container-fluid {% if tournament_logo_filename %}mt-6{% else %}mt-5{% endif %}">
     <table class="table no-padding">
 
       <thead>
