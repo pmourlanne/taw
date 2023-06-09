@@ -163,3 +163,8 @@ cython_debug/
 
 #Custom data for development
 /taw/tests/data/*
+
+# Ignore all uploaded files
+taw/static/uploads/*
+# Except one empty file, to be able to commit the directory in the git tree
+!taw/static/uploads/.empty
