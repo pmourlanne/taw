@@ -31,7 +31,7 @@ Contributions to this repo are welcome :) If you notice an issue, feel free to o
 
 Create a virtual environment, then run `pip install -r requirements.txt`
 
-Run the local server with `flask --app taw run`
+Run the local server with `flask --app taw run --debug`
 
 ### Development installation
 
