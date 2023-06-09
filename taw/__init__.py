@@ -1,6 +1,8 @@
-import base64
+import os
+import uuid
 
 from flask import Flask, render_template, request
+from werkzeug.utils import secure_filename
 
 from taw.forms import PairingsForm, StandingsForm
 from taw.utils import get_pairings_by_name, sort_pairings_for_paper_cutter
@@ -12,6 +14,8 @@ app = Flask(
     static_folder="static",
     template_folder="templates",
 )
+
+app.config["UPLOAD_FOLDER"] = "taw/static/uploads"
 
 
 NB_SLIPS_PER_PAGE = 5
@@ -32,14 +36,18 @@ def home():
             "round_number": form.round_number.data,
         }
 
-        tournament_logo_base64 = None
-        if form.tournament_logo.data:
-            tournament_logo_base64 = base64.b64encode(
-                form.tournament_logo.raw_data[0].read()
-            )
-            tournament_logo_base64 = tournament_logo_base64.decode("utf-8")
+        tournament_logo_filename = None
+        if data := form.tournament_logo.data:
+            # Secure the filename (remove eg `../`)
+            filename = secure_filename(data.filename)
+            filename, file_extension = os.path.splitext(filename)
+            # Make sure the filename is unique
+            filename = f"{filename}-{uuid.uuid4()}{file_extension}"
 
-        ctx["tournament_logo_base64"] = tournament_logo_base64
+            data.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            tournament_logo_filename = os.path.join("/uploads/", filename)
+
+        ctx["tournament_logo_filename"] = tournament_logo_filename
 
         if request.form["action"] == "pairings":
             pairings_by_name = get_pairings_by_name(
