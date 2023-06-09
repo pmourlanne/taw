@@ -26,7 +26,7 @@
                 <a href="#" class="link-secondary" onclick="document.getElementById('aetherhub_dump').value = ''">Clear input</a>
               </div>
             </div>
-            {{ form.aetherhub_dump(class_="form-control", rows=10, **{"aria-describedby": "aetherhub_dump_description"}) }}
+            {{ form.aetherhub_dump(class_="form-control", rows=15, **{"aria-describedby": "aetherhub_dump_description"}) }}
             <div id="aetherhub_dump_description" class="form-text">{{ form.aetherhub_dump.description }}</div>
 
             {% if form.aetherhub_dump.errors %}
