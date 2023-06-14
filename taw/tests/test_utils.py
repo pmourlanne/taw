@@ -62,7 +62,7 @@ from taw.utils import (
                         points=0,
                     ),
                     player_2=Player(
-                        name="BYE",
+                        name="* * * BYE * * *",
                         points=0,
                     ),
                 ),
@@ -207,7 +207,7 @@ from taw.utils import (
                         points=15,
                     ),
                     player_2=Player(
-                        name="BYE",
+                        name="* * * BYE * * *",
                         points=0,
                     ),
                 ),
