@@ -59,14 +59,26 @@ def home():
                 # We don't want to show the bye as player 1
                 # TODO: Do better than checking against a string
                 if pairing.player_1.name != "BYE":
-                    rows.append(
-                        {
-                            "table_number": pairing.number,
-                            "player_1": pairing.player_1.name,
-                            "player_1_points": pairing.player_1.points,
-                            "player_2": pairing.player_2.name,
-                            "player_2_points": pairing.player_2.points,
-                        },
+                    # Clean up the bye row (no table, no points for bye)
+                    if pairing.player_2.name == "BYE":
+                        rows.append(
+                            {
+                                "table_number": "",
+                                "player_1": pairing.player_1.name,
+                                "player_1_points": pairing.player_1.points,
+                                "player_2": "*** BYE ***",
+                                "player_2_points": ""
+                            }
+                        )
+                    else:
+                        rows.append(
+                            {
+                                "table_number": pairing.number,
+                                "player_1": pairing.player_1.name,
+                                "player_1_points": pairing.player_1.points,
+                                "player_2": pairing.player_2.name,
+                                "player_2_points": pairing.player_2.points,
+                            },
                     )
 
             return render_template("pairings.html", rows=rows, **ctx)
