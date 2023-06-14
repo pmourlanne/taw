@@ -8,11 +8,16 @@ from operator import itemgetter
 from taw.exceptions import ParsePairingException, ParseStandingException
 
 
-Player = namedtuple("Player", ["name", "points"])
 Table = namedtuple("Table", ["number", "player_1", "player_2"])
 
 
 BYE_STRING = "* * * BYE * * *"
+
+
+class Player(namedtuple("Player", ["name", "points"])):
+    @property
+    def is_bye(self):
+        return self.name == BYE_STRING
 
 
 def parse_pairings(pairings_input):
