@@ -12,6 +12,9 @@ Player = namedtuple("Player", ["name", "points"])
 Table = namedtuple("Table", ["number", "player_1", "player_2"])
 
 
+BYE_STRING = "* * * BYE * * *"
+
+
 def parse_pairings(pairings_input):
     """
     Parse the pairings input and return the pairings
@@ -116,7 +119,7 @@ def _parse_pairing(pairing_line):
                 points=int(group_dict["player_1_nb_points"]),
             ),
             player_2=Player(
-                name="BYE",
+                name=BYE_STRING,
                 points=0,
             ),
         )
