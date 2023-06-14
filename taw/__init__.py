@@ -57,29 +57,28 @@ def home():
             rows = []
             for pairing in pairings_by_name:
                 # We don't want to show the bye as player 1
-                # TODO: Do better than checking against a string
-                if pairing.player_1.name != "BYE":
-                    # Clean up the bye row (no table, no points for bye)
-                    if pairing.player_2.name == "BYE":
-                        rows.append(
-                            {
-                                "table_number": "",
-                                "player_1": pairing.player_1.name,
-                                "player_1_points": pairing.player_1.points,
-                                "player_2": "*** BYE ***",
-                                "player_2_points": ""
-                            }
-                        )
-                    else:
-                        rows.append(
-                            {
-                                "table_number": pairing.number,
-                                "player_1": pairing.player_1.name,
-                                "player_1_points": pairing.player_1.points,
-                                "player_2": pairing.player_2.name,
-                                "player_2_points": pairing.player_2.points,
-                            },
-                    )
+                if pairing.player_1.is_bye:
+                    continue
+
+                # We treat the bye pairing a little bit differently
+                if pairing.player_2.is_bye:
+                    # No table (player 1 doesn't have to sit anywhere)
+                    table_number = ""
+                    # The bye player has no points
+                    player_2_points = ""
+                else:
+                    table_number = pairing.number
+                    player_2_points = pairing.player_2.points
+
+                rows.append(
+                    {
+                        "table_number": table_number,
+                        "player_1": pairing.player_1.name,
+                        "player_1_points": pairing.player_1.points,
+                        "player_2": pairing.player_2.name,
+                        "player_2_points": player_2_points,
+                    },
+                )
 
             return render_template("pairings.html", rows=rows, **ctx)
 
