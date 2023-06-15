@@ -214,6 +214,12 @@ from taw.utils import (
             ],
             id="complex name with a BYE",
         ),
+        # There *are* limits to what we can parse though :o
+        pytest.param(
+            "1   Louis IX (Saint-Louis) (15 Points)    🤡 (13 Points)     No results",
+            None,
+            id="cannot parse name with parenthesis",
+        ),
         pytest.param(
             """1   Jacques Chirac (15 Points)    François Mitterrand (13 Points)     No results
 3   Valéry Giscard d'Estaing (12 Points)   Charles de Gaulle (12 Points)     No results  """,
