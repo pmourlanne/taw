@@ -1,0 +1,25 @@
+ Rank   Name    Points  Results     OMW     GW  OGW
+1   Édith Cresson   9   3 - 0   59.2592%    85.7142%    57.9365%
+2   Élisabeth Borne     9   3 - 0   48.1481%    83.3333%    41.2698%
+3   Édouard Balladur    9   3 - 0   37.0370%    85.7142%    36.9444%
+4   Manuel Valls    7   2 - 0 - 1   51.8518%    71.4285%    49.0079%
+5   Lionel Jospin   6   2 - 1   70.3703%    57.1428%    64.2857%
+6   Michel Rocard   6   2 - 1   55.5555%    66.6666%    50.7936%
+7   Jacques Chaban-Delmas   6   2 - 1   55.5555%    57.1428%    53.9682%
+8   Jacques Chirac  6   2 - 1   48.1481%    66.6666%    46.0317%
+9   Pierre Bérégovoy    6   2 - 1   44.4444%    66.6666%    43.4920%
+10  Jean-Marc Ayrault   4   1 - 1 - 1   70.3703%    37.5000%    63.4920%
+11  Bernard Cazeneuve   4   1 - 1 - 1   59.2592%    50.0000%    50.7936%
+12  Jean-Pierre Raffarin    4   1 - 1 - 1   59.2592%    33.3333%    55.5555%
+13  François Fillon     4   1 - 1 - 1   51.8518%    42.8571%    49.2063%
+14  Pierre Messmer  4   1 - 1 - 1   48.1481%    42.8571%    44.4444%
+15  Michel Debré    3   1 - 2   66.6666%    40.0000%    61.9047%
+16  Maurice Couve de Murville   3   1 - 2   59.2592%    33.3333%    55.5555%
+17  Édouard Philippe    3   1 - 2   59.2592%    28.5714%    57.1428%
+18  Pierre Mauroy   3   1 - 2   55.5555%    33.3333%    55.5555%
+19  Jean Castex     3   1 - 2   55.5555%    28.5714%    55.5555%
+20  Raymond Barre   3   1 - 2   48.1481%    28.5714%    45.8333%
+21  Laurent Fabius  3   1 - 2   44.4444%    42.8571%    41.2698%
+22  Dominique de Villepin   0   0 - 3   44.4444%    25.0000%    43.4920%
+23  Georges Pompidou    0   0 - 3   37.0370%    14.2857%    36.5079%
+24  Alain Juppé     0   0 - 3   37.0370%    14.2857%    36.5079% 
