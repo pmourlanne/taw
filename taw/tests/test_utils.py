@@ -251,7 +251,6 @@ from taw.utils import (
                 ),
             ],
             id="standard one liner with header",
-            marks=[pytest.mark.xfail],
         ),
         # TODO: A single name appearing in multiple tables should raise (?)
     ],

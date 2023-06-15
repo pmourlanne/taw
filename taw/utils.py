@@ -88,6 +88,8 @@ re_pairing_bye = (
     r"BYE.*"
 )
 
+re_pairing_header = r"Table\s+Player 1\s+Player 2\s+Match Results"
+
 
 def _parse_pairing(pairing_line):
     # Strip extraneous spaces
@@ -95,6 +97,11 @@ def _parse_pairing(pairing_line):
 
     # If at that point the line is empty, just return None :shrug:
     if not pairing_line:
+        return None
+
+    # Ignore the header
+    result = re.match(re_pairing_header, pairing_line)
+    if result:
         return None
 
     # Try to match to "normal" pairing re
