@@ -337,12 +337,19 @@ re_standing = (
     r"(?P<ogw>[\d.]+%)$"
 )
 
+re_header_standing = r"Rank\s+Name\s+Points\s+Results\s+OMW\s+GW\s+OGW"
+
 
 def _parse_standing(standing_line):
     standing_line = standing_line.strip()
 
     # If at that point the line is empty, just return None :shrug:
     if not standing_line:
+        return None
+
+    # Ignore the header line
+    result = re.match(re_header_standing, standing_line)
+    if result:
         return None
 
     # Invoking the power of regexps
