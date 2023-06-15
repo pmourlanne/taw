@@ -4,6 +4,8 @@ Pairings, Match Slips &amp; standings generator for your AetherHub tournament
 
 "TAW" is a recursive acronym for "TAW Ain't WLTR".
 
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/pmourlanne/taw/main.svg)](https://results.pre-commit.ci/latest/github/pmourlanne/taw/main)
+
 ## Motivations behind this project
 
 As a Magic: The Gathering judge, the options I know of when it comes to scorekeeping are:
