@@ -233,6 +233,26 @@ from taw.utils import (
             None,
             id="two tables have the same number",
         ),
+        # Header is present
+        pytest.param(
+            """Table   Player 1    Player 2    Match Results
+1   Jacques Chirac (0 Points)     François Mitterrand (0 Points)   No results   """,
+            [
+                Table(
+                    number=1,
+                    player_1=Player(
+                        name="Jacques Chirac",
+                        points=0,
+                    ),
+                    player_2=Player(
+                        name="François Mitterrand",
+                        points=0,
+                    ),
+                ),
+            ],
+            id="standard one liner with header",
+            marks=[pytest.mark.xfail],
+        ),
         # TODO: A single name appearing in multiple tables should raise (?)
     ],
 )
@@ -594,6 +614,23 @@ def test_get_pairings_by_name(pairings, first_table_number, pairings_by_name):
             id="position 1 is missing",
         ),
         pytest.param("", [], id="empty string"),
+        pytest.param(
+            """Rank   Name    Points  Results     OMW     GW  OGW
+1   Édith Cresson   9   3 - 0   59.2592%    85.7142%    57.9365%""",
+            [
+                Standing(
+                    position=1,
+                    player_name="Édith Cresson",
+                    nb_points=9,
+                    record="3 - 0",
+                    omw="59.2592%",
+                    gw="85.7142%",
+                    ogw="57.9365%",
+                ),
+            ],
+            id="one liner with a header",
+            marks=[pytest.mark.xfail],
+        ),
     ],
 )
 def test_parse_standings(standings_input, expected_output):
