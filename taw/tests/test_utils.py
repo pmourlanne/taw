@@ -629,7 +629,6 @@ def test_get_pairings_by_name(pairings, first_table_number, pairings_by_name):
                 ),
             ],
             id="one liner with a header",
-            marks=[pytest.mark.xfail],
         ),
     ],
 )
