@@ -43,6 +43,8 @@ Install the pre-commit hooks with `pre-commit install`
 
 Run the local tests with `pytest`
 
+You can re-generate the HTML test outputs with the `--generate-test-outputs` flag: `pytest --generate-test-outputs`
+
 ### Deployment installation
 
 - Install nvm: `curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash`
