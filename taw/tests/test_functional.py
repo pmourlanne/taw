@@ -5,7 +5,7 @@ import pytest
 from taw import app as taw_app
 
 
-@pytest.fixture()
+@pytest.fixture
 def app():
     app = taw_app
     app.config.update(
@@ -17,7 +17,7 @@ def app():
     yield app
 
 
-@pytest.fixture()
+@pytest.fixture
 def client(app):
     return app.test_client()
 
@@ -49,53 +49,36 @@ def _get_expected_html(dump_path, *, prefix=None):
     return expected_html
 
 
-@pytest.fixture(params=TESTING_DIR.glob("*pairings*.txt"), ids=get_stem_from_path)
-def pairings_dump_with_expected_html(request):
-    path = request.param
-    with path.open() as f:
-        pairings_dump = f.read()
+@pytest.fixture
+def assert_generated_html(request, client):
+    def _func(dump_path, mode):
+        with dump_path.open() as f:
+            dump = f.read()
 
-    expected_html = _get_expected_html(path)
+        response = client.post(
+            "/",
+            data={
+                "tournament_name": "Testing Tournament",
+                "round_number": "1",
+                "aetherhub_dump": dump,
+                "action": mode,
+            },
+        )
+        generated_html = response.get_data(as_text=True)
 
-    return pairings_dump, expected_html
+        prefix = "match_slips_" if mode == "match_slips" else ""
+        expected_html = _get_expected_html(dump_path, prefix=prefix)
 
+        assert generated_html == expected_html
 
-@pytest.fixture(params=TESTING_DIR.glob("*pairings*.txt"), ids=get_stem_from_path)
-def pairings_dump_with_match_slips_expected_html(request):
-    path = request.param
-    with path.open() as f:
-        pairings_dump = f.read()
-
-    expected_html = _get_expected_html(path, prefix="match_slips_")
-
-    return pairings_dump, expected_html
-
-
-def test_generate_pairings(client, pairings_dump_with_expected_html):
-    pairings_dump, expected_html = pairings_dump_with_expected_html
-
-    response = client.post(
-        "/",
-        data={
-            "tournament_name": "Testing Tournament",
-            "round_number": "1",
-            "aetherhub_dump": pairings_dump,
-            "action": "pairings",
-        },
-    )
-    assert response.get_data(as_text=True) == expected_html
+    return _func
 
 
-def test_generate_match_slips(client, pairings_dump_with_match_slips_expected_html):
-    pairings_dump, expected_html = pairings_dump_with_match_slips_expected_html
-
-    response = client.post(
-        "/",
-        data={
-            "tournament_name": "Testing Tournament",
-            "round_number": "1",
-            "aetherhub_dump": pairings_dump,
-            "action": "match_slips",
-        },
-    )
-    assert response.get_data(as_text=True) == expected_html
+@pytest.mark.parametrize("mode", ["pairings", "match_slips"])
+@pytest.mark.parametrize(
+    "dump_path",
+    TESTING_DIR.glob("*pairings*.txt"),
+    ids=get_stem_from_path,
+)
+def test_generate_from_pairings(dump_path, mode, assert_generated_html):
+    assert_generated_html(dump_path, mode)
