@@ -91,3 +91,12 @@ def assert_generated_html(taw_generate_test_outputs, client):
 )
 def test_generate_from_pairings(dump_path, mode, assert_generated_html):
     assert_generated_html(dump_path, mode)
+
+
+@pytest.mark.parametrize(
+    "dump_path",
+    TESTING_DIR.glob("*standings*.txt"),
+    ids=get_stem_from_path,
+)
+def test_generate_from_standings(dump_path, assert_generated_html):
+    assert_generated_html(dump_path, "standings")
