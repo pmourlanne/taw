@@ -84,6 +84,8 @@ def home():
 
         if request.form["action"] == "match_slips":
             pairings = form.parsed_pairings
+            # Filter out the bye before sorting:
+            pairings = [pairing for pairing in pairings if not pairing.player_2.is_bye]
             # We want to print five match slips per page, and we want
             # them to in the "correct" order when we use the paper cutter
             pairings = sort_pairings_for_paper_cutter(
