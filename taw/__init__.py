@@ -7,7 +7,6 @@ from werkzeug.utils import secure_filename
 from taw.forms import PairingsForm, StandingsForm
 from taw.utils import get_pairings_by_name, sort_pairings_for_paper_cutter
 
-
 app = Flask(
     __name__,
     static_url_path="",

@@ -7,7 +7,6 @@ from operator import itemgetter
 
 from taw.exceptions import ParsePairingException, ParseStandingException
 
-
 Table = namedtuple("Table", ["number", "player_1", "player_2"])
 
 
